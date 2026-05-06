@@ -1,1 +1,129 @@
-test
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>لوحة تحكم الأدمن - الطفرة أونلاين</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+body { font-family: 'Almarai', sans-serif; background: #f0f4f8; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+<body class="min-h-screen">
+<div id="loginScreen" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-blue-600">
+<div class="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl">
+<div class="text-center mb-8">
+<div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-white text-3xl">مدرسة</span>
+</div>
+<h1 class="text-2xl Font-black text-blue-900">لوحة التحكم</h1>
+<p class="text-gray-500 text-sm mt-1">الطفرة أونلاين</p>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-smfont-bold text-gray-700 mb-2">كلمة المرور</label>
+<input id="passwordInput" type="password" placeholder="ادخل كلمة المرور" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 outline-none text-right"/>
+</div>
+<button onclick="adminLogin()" class="w-full py-3 bg-blue-600 text-white rounded-xl font-bold"> تسجيل الدخول</button>
+<p id="loginError" class="text-red-500 text-sm text-center Hidden">كلمة المرور الخاطئ!</p>
+</div>
+</div>
+</div>
+<div id="adminDashboard" class="hidden">
+<header class="bg-white shadow-sm px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-white">مدرسة</span>
+</div>
+<div>
+<h1 class="font-black text-blue-900">لوحة التحكم</h1>
+<p class="text-xs text-gray-500">الطفرة أونلاين</p>
+</div>
+</div>
+<button onclick="adminLogout()" class="flex items-center gap-2 text-red-500 font-bold text-sm"> تسجيل الخروج</button>
+</header>
+<div class="bg-white border-b px-6 flex gap-6 overflow-x-auto">
+<button onclick="showTab('lessons')" id="tab-lessons" class="py-4 font-bold text-blue-600 border-b-2 border-blue-600 whitespace-nowrap">الحصص</button>
+<button onclick="showTab('codes')" id="tab-codes" class="py-4 font-bold text-gray-400 whitespace-nowrap">العلامة</button>
+<button onclick="showTab('students')" id="tab-students" class="py-4 font-bold text-gray-400 whitespace-nowrap">الطلاب</button>
+</div>
+<main class="p-6 max-w-4xl mx-auto">
+<div id="tab-content-lessons">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xlfont-black text-gray-800">إدارة الحصص</h2>
+<button onclick="showAddLesson()" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl font-bold text-sm">+ دروس جديدة</button>
+</div>
+<div id="addLessonForm" class="hidden bg-white rounded-2xl p-6 mb-6 shadow-sm border border-blue-100">
+<h3 class="font-black text-gray-800 mb-4"> إضافة حصة جديدة</h3>
+<div class="space-y-4">
+<input id="lessonTitle" type="text" placeholder="عنوان الدرس" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none focus:border-blue-500 text-right"/>
+<input id="lessonVideo" type="text" placeholder="رابط يوتيوب" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none focus:border-blue-500 text-right"/>
+<select id="lessonGrade" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none text-right">
+<option>أولى إعدادي</option><option>ثاني إعدادي</option><option>ثالث إعدادي</option>
+<option>أولى ثانية</option><option>ثانية ثانية</option><option>ثالثة ثانية</option>
+</select>
+<select id="lessonTerm" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none text-right">
+<option>ترم أول</option><option>ترم ثاني</option>
+</select>
+<div class="flex gap-3">
+<button onclick="addLesson()" class="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold">حفظ</button>
+<button onclick="hideAddLesson()" class="px-6 py-3 bg-gray-100 text-gray-600 rounded-xl font-bold"> إخفاء</button>
+</div>
+</div>
+</div>
+<div id="lessonsList" class="space-y-3"></div>
+<p id="noLessons" class="text-center text-gray-400 py-12">لا حصص. أضف حصة جديدة!</p>
+</div>
+<div id="tab-content-codes" class="hidden">
+<h2 class="text-xlfont-black text-gray-800 mb-6">توليد الأكواد</h2>
+<div class="bg-white rounded-2xl p-6 shadow-sm border border-blue-100 mb-6">
+<div class="space-y-4">
+<select id="codeLesson" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none text-right"><option value="">اختر...</option></select>
+<input id="codeStudentName" type="text" placeholder="اسم الطالب (اختياري)" class="w-full px-4 py-3 حدود-2 حدود-رمادي-200 مدورة-xl مخطط تفصيلي-لا شيء نص-يمين"/>
+<button onclick="generateCode()" class="w-full py-3 bg-green-600 text-white rounded-xl font-bold">توليد كود جديد</button>
+</div>
+<div id="generatedCodeDisplay" class="hidden mt-6 p-4 bg-green-50 border-2 border-green-200 rounded-xl text-center">
+<p class="text-sm text-green-700font-bold mb-2">الكود الجديد:</p>
+<p id="generatedCodeText" class="text-3xl font-black text-green-800 tracking-widest"></p>
+<p id="generatedCodeInfo" class="text-xs text-green-600 mt-2"></p>
+<button onclick="copyCode()" class="mt-3 px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-bold"> رمز الكود</button>
+</div>
+</div>
+<div id="codesList" class="space-y-3"></div>
+<p id="noCodes" class="text-center text-gray-400 py-8">لا توجد أكواد بعد.</p>
+</div>
+<div id="tab-content-students" class="hidden">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-xl Font-black text-gray-800">بيانات</h2>
+<span id="studentsCount" class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-bold">0 طالب</span>
+</div>
+<div id="studentsList" class="space-y-3"></div>
+<p id="noStudents" class="text-center text-gray-400 py-12">لا يوجد طلاب مسجلين بعد.</p>
+</div>
+</main>
+</div>
+<script>
+const ADMIN_PASSWORD="tafra2024";
+دالة getData(k){try{return JSON.parse(localStorage.getItem(k))||[];}catch{return[];}}
+دالة saveData(k,d){localStorage.setItem(k,JSON.stringify(d));}
+دالة تسجيل دخول المسؤول: `function adminLogin(){const p=document.getElementById('passwordInput').value;if(p===ADMIN_PASSWORD){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('adminDashboard').classList.remove('hidden');loadDashboard();}else{document.getElementById('loginError').classList.remove('hidden');}}`
+document.getElementById('passwordInput').addEventListener('keypress',function(e){if(e.key==='Enter')adminLogin();});
+function adminLogout(){document.getElementById('loginScreen').classList.remove('hidden');document.getElementById('adminDashboard').classList.add('hidden');document.getElementById('passwordInput').value='';}
+دالة إظهار علامة التبويب (t) { ['lessons','codes','students'].forEach(x=>{document.getElementById('tab-content-'+x).classList.add('hidden');document.getElementById('tab-'+x).classList.remove('text-blue-600','border-b-2','border-blue-600');document.getElementById('tab-'+x).classList.add('text-gray-400');});document.getElementB yId('tab-content-'+t).classList.remove('hidden');document.getElementById('tab-'+t).classList.add('text-blue-600','border-b-2','border-blue-600');document.getElementById('tab-'+t).classList.remove('text-gray-400');if(t==='codes')loadCodesTab();if(t==='students')loadStudents();if(t==='lessons')loadLessons();}
+function showAddLesson(){document.getElementById('addLessonForm').classList.remove('hidden');}
+function hideAddLesson(){document.getElementById('addLessonForm').classList.add('hidden');}
+function addLesson(){const t=document.getElementById('lessonTitle').value.trim();const v=document.getElementById('lessonVideo').value.trim();const g=document.getElementById('lessonGrade').value;const tm=document.getElementById('lessonTerm').value;if(!t||!v){alert('اكتب عنوان الدرس ورابط الفيديو!');return;}const l=getData('lessons');l.push({id:Date.now(),title:t,video:v,grade:g,term:tm});saveData('lessons',l);document.getElementById('lessonTitle').value='';document.getElementById('lessonVideo').value='';hideAddLesson();loadLessons();}
+دالة تحميل الدروس(){const l=getData('lessons');const list=document.getElementById('lessonsList');const no=document.getElementById('noLessons');if(l.length===0){list.innerHTML='';no.classList.remove('hidden');return;}no.classList.add('hidden');list.innerHTML=l.map(x=>`<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 flex justify-between items-center"><div><p class="font-bold text-gray-800">${x.title}</p><p class="text-xs text-gray-500 mt-1">${x.grade} - ${x.term}</p></div><button onclick="deleteLesson(${x.id})" class="text-red-400"> حذف</button></div>`).join('');}
+وظيفة حذف الدرس(id){if(!confirm('حذف الحصة؟'))return;let l=getData('lessons');l=l.filter(x=>x.id!==id);saveData('lessons',l);loadLessons();}
+function loadCodesTab(){const l=getData('lessons');const s=document.getElementById('codeLesson');s.innerHTML='<option value="">اختر درسًا...</option>'+l.map(x=>`<option value="${x.id}">${x.title} (${x.grade})</option>`).join('');loadCodes();}
+دالة توليد الكود(){const lid=document.getElementById('codeLesson').value;const sn=document.getElementById('codeStudentName').value.trim();if(!lid){alert('اختر درسًا!');return;}const l=getData('lessons');const lesson=l.find(x=>x.id==lid);const code=Math.random().toString(36).substring(2,8).toUpperCase();const c=getData('codes');c.push({code,lessonId:parseInt(lid),lessonTitle:lesson.title,studentName:sn,used:false,createdAt:new Date().toLocaleDateString('ar-EG')});saveData('codes',c);document.getElementById('generatedCodeText').textContent=code;document.getElementById('generatedCodeInfo').textContent=`للحصة: ${lesson.title}`;document.getElementById('generatedCodeDisplay').classList.remove('hidden');document.getElementById('codeStudentName').value='';loadCodes();}
+function copyCode(){const c=document.getElementById('generatedCodeText').textContent;navigator.clipboard.writeText(c).then(()=>alert('تم نسخ الكود: '+c));}
+دالة تحميل الرموز(){const c=getData('codes');const list=document.getElementById('codesList');const no=document.getElementById('noCodes');if(c.length===0){list.innerHTML='';no.classList.remove('hidden');return;}no.classList.add('hidden');list.innerHTML=[...c].reverse().map(x=>`<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100"><div class="flex justify-between items-center"><span class="text-2xl font-black tracking-widest text-blue-700">${x.code}</span><span class="px-3 py-1 rounded-full text-xs font-bold ${x.used?'bg-red-100 text-red-600':'bg-green-100 text-green-600'}">${x.used?'مستخدم':'مستخدم'}</span></div><p class="text-sm text-gray-600 mt-1">${x.lessonTitle}</p>${x.studentName?`<p class="text-xs text-gray-400">العنوان: ${x.studentName}</p>`:''}<p class="text-xs text-gray-400">${x.createdAt}</p></div>`).join('');}
+دالة تحميل الطلاب(){const s=getData('students');const list=document.getElementById('studentsList');const no=document.getElementById('noStudents');const cnt=document.getElementById('studentsCount');cnt.textContent=s.length+' طالب';if(s.length===0){list.innerHTML='';no.classList.remove('hidden');return;}no.classList.add('hidden');list.innerHTML=s.map(x=>`<div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100"><p class="font-bold text-gray-800">${x.name}</p><p class="text-sm text-gray-500">📱 ${x.phone}</p>${x.parentPhone?`<p class="text-sm text-gray-500">👨‍👩‍👦 ${x.parentPhone}</p>`:''}<p class="text-sm text-blue-600 font-bold">${x.grade}</p></div>`).join('');}
+function loadDashboard(){loadLessons();}
+</script>
+</body>
+</html>
