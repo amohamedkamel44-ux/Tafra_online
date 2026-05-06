@@ -58,7 +58,7 @@ body { font-family: 'Almarai', sans-serif; background: #f0f4f8; }
 </div>
 <div id="addLessonForm" class="hidden bg-white rounded-2xl p-6 mb-6 shadow-sm border border-blue-100">
 <h3 class="font-black text-gray-800 mb-4"> إضافة حصة جديدة</h3>
-<div class="space-y-4">
+<div class="space-y-4"
 <input id="lessonTitle" type="text" placeholder="عنوان الدرس" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none focus:border-blue-500 text-right"/>
 <input id="lessonVideo" type="text" placeholder="رابط يوتيوب" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none focus:border-blue-500 text-right"/>
 <select id="lessonGrade" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl outline-none text-right">
@@ -106,7 +106,7 @@ body { font-family: 'Almarai', sans-serif; background: #f0f4f8; }
 </main>
 </div>
 <script>
-const ADMIN_PASSWORD="tafra2024";
+const ADMIN_PASSWORD="12341234";
 دالة getData(k){try{return JSON.parse(localStorage.getItem(k))||[];}catch{return[];}}
 دالة saveData(k,d){localStorage.setItem(k,JSON.stringify(d));}
 دالة تسجيل دخول المسؤول: `function adminLogin(){const p=document.getElementById('passwordInput').value;if(p===ADMIN_PASSWORD){document.getElementById('loginScreen').classList.add('hidden');document.getElementById('adminDashboard').classList.remove('hidden');loadDashboard();}else{document.getElementById('loginError').classList.remove('hidden');}}`
