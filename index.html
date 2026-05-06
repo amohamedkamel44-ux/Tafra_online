@@ -1,177 +1,166 @@
 <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>الطفرة أونلاين - ميس ندى كامل</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap" rel="stylesheet"/>
-<style>
-body { font-family: 'Almarai', sans-serif; background: #020617; color: white; user-select: none; }
-.gold-text { color: #fbbf24; }
-.gold-bg { background: linear-gradient(135deg, #fbbf24, #d97706); }
-.card { background: #0f172a; border: 1px solid #1e293b; }
-input, select { background: #1e293b !important; border: 1px solid #334155 !important; color: white !important; }
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة الطفرة - ميس ندى كامل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #050a18; color: #fff; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .gold-gradient { background: linear-gradient(135deg, #c5a059 0%, #f7dc9b 50%, #c5a059 100%); color: #050a18; }
+        .input-style { background: #0f172a; border: 1px solid #1e293b; transition: 0.3s; }
+        .input-style:focus { border-color: #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-show { animation: fadeIn 0.6s ease-out forwards; }
+    </style>
 </head>
 <body oncontextmenu="return false;">
 
-<div id="authArea" class="min-h-screen flex items-center justify-center p-4">
-    <div id="loginBox" class="card p-8 rounded-3xl w-full max-w-md shadow-2xl">
-        <h1 class="text-3xl font-black gold-text text-center mb-6">الطفرة أونلاين</h1>
-        <div id="loginFields" class="space-y-4">
-            <input id="loginName" type="text" placeholder="الاسم الثلاثي" class="w-full p-4 rounded-xl outline-none focus:border-amber-500 text-right"/>
-            <input id="loginPass" type="password" placeholder="كلمة المرور" class="w-full p-4 rounded-xl outline-none focus:border-amber-500 text-right"/>
-            <button onclick="login()" class="w-full gold-bg p-4 rounded-xl font-bold text-slate-900 text-lg shadow-lg">تسجيل الدخول</button>
-            <p class="text-center text-sm text-slate-400">ليس لديك حساب؟ <a href="javascript:void(0)" onclick="toggleAuth()" class="gold-text">أنشئ حساباً الآن</a></p>
+<div id="authScreen" class="min-h-screen flex items-center justify-center p-6">
+    <div class="glass p-10 rounded-[2rem] w-full max-w-md animate-show shadow-2xl">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-900 mb-2" style="color: #c5a059;">الطفرة</h1>
+            <p class="text-gray-400 text-sm">بوابة الطالب الذكية - ميس ندى كامل</p>
         </div>
 
-        <div id="registerFields" class="space-y-4 hidden">
-            <input id="regName" type="text" placeholder="الاسم الثلاثي" class="w-full p-4 rounded-xl outline-none focus:border-amber-500 text-right"/>
-            <input id="regPhone" type="tel" placeholder="رقم موبايلك" class="w-full p-4 rounded-xl outline-none focus:border-amber-500 text-right"/>
-            <input id="regParentPhone" type="tel" placeholder="رقم ولي الأمر" class="w-full p-4 rounded-xl outline-none focus:border-amber-500 text-right"/>
-            <select id="regGrade" class="w-full p-4 rounded-xl outline-none text-right">
-                <option value="">اختر السنة الدراسية</option>
+        <div id="loginForm" class="space-y-5">
+            <input id="lName" type="text" placeholder="الاسم الثلاثي" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+            <input id="lPass" type="password" placeholder="كلمة المرور" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+            <button onclick="doLogin()" class="gold-gradient w-full py-4 rounded-2xl font-bold text-lg hover:scale-[1.02] transition">دخول المنصة</button>
+            <p class="text-center text-sm">طالب جديد؟ <span onclick="toggleAuth(true)" class="text-[#c5a059] cursor-pointer font-bold">أنشئ حسابك الآن</span></p>
+        </div>
+
+        <div id="regForm" class="space-y-4 hidden">
+            <input id="rName" type="text" placeholder="الاسم الثلاثي" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+            <input id="rPhone" type="tel" placeholder="رقم موبايلك" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+            <input id="rParent" type="tel" placeholder="رقم ولي الأمر" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+            <select id="rGrade" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+                <option value="">السنة الدراسية</option>
                 <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
             </select>
-            <input id="regPass" type="password" placeholder="اختر كلمة مرور" class="w-full p-4 rounded-xl outline-none focus:border-amber-500 text-right"/>
-            <button onclick="register()" class="w-full gold-bg p-4 rounded-xl font-bold text-slate-900 text-lg shadow-lg">إنشاء الحساب</button>
-            <p class="text-center text-sm text-slate-400">لديك حساب بالفعل؟ <a href="javascript:void(0)" onclick="toggleAuth()" class="gold-text">سجل دخولك</a></p>
+            <input id="rPass" type="password" placeholder="كلمة مرور قوية" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+            <button onclick="doRegister()" class="gold-gradient w-full py-4 rounded-2xl font-bold text-lg">تأكيد التسجيل</button>
+            <p class="text-center text-sm" onclick="toggleAuth(false)">لديك حساب؟ <span class="text-[#c5a059] cursor-pointer font-bold">سجل دخولك</span></p>
         </div>
     </div>
 </div>
 
-<div id="mainContent" class="hidden min-h-screen">
-    <nav class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900 sticky top-0 z-50">
-        <span id="userNameHeader" class="font-bold gold-text">مرحباً بك</span>
-        <button onclick="logout()" class="bg-red-500/10 text-red-500 px-4 py-1 rounded-lg text-sm">خروج</button>
-    </nav>
+<div id="mainDashboard" class="hidden min-h-screen">
+    <header class="p-6 flex justify-between items-center border-b border-white/10 bg-[#050a18]/80 sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <div class="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
+            <span id="uHeader" class="font-bold text-[#c5a059]"></span>
+        </div>
+        <button onclick="logout()" class="text-red-400 text-sm font-bold border border-red-400/30 px-4 py-2 rounded-xl hover:bg-red-400/10">خروج</button>
+    </header>
 
-    <div class="max-w-4xl mx-auto p-4">
-        <div id="codeEntryArea" class="card p-6 rounded-2xl mb-6 text-center">
-            <h2 class="text-xl font-bold mb-4">الدخول للمحاضرة</h2>
+    <div class="max-w-4xl mx-auto p-6">
+        <div class="glass p-8 rounded-[2rem] mb-8 animate-show">
+            <h2 class="text-2xl font-bold mb-6 text-center">أهلاً بك في رحلة التميز ✨</h2>
             <div class="space-y-4">
-                <select id="lessonSelect" class="w-full p-3 rounded-xl outline-none text-right">
-                    <option value="">اختر المحاضرة التي تريد سماعها</option>
-                </select>
-                <input id="lessonCode" type="text" placeholder="اكتب كود المحاضرة هنا" class="w-full p-4 rounded-xl outline-none focus:border-amber-500 text-center font-bold uppercase tracking-widest"/>
-                <button onclick="unlockLesson()" class="w-full gold-bg p-3 rounded-xl font-bold text-slate-900">فتح المحاضرة</button>
+                <select id="lessonSel" class="input-style w-full p-4 rounded-2xl outline-none text-right"></select>
+                <input id="lessonCode" type="text" placeholder="ادخل كود المحاضرة" class="input-style w-full p-4 rounded-2xl outline-none text-center font-black text-xl tracking-[0.3em]">
+                <button onclick="startLesson()" class="gold-gradient w-full py-4 rounded-2xl font-bold text-lg shadow-[0_10px_20px_rgba(197,160,89,0.2)]">مشاهدة الآن</button>
             </div>
         </div>
 
-        <div id="videoArea" class="hidden animate-fade-in">
-            <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-slate-800 mb-6">
-                <div id="player"></div>
+        <div id="videoContainer" class="hidden space-y-6">
+            <div class="rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-black">
+                <div id="ytPlayer" class="aspect-video"></div>
             </div>
             
-            <div class="card p-6 rounded-2xl">
-                <h3 class="font-bold mb-4 text-amber-500">منتدى الأسئلة</h3>
-                <div class="flex gap-2 mb-6">
-                    <input id="qInput" type="text" placeholder="اسأل المدرس..." class="flex-1 p-3 rounded-xl outline-none text-right text-sm"/>
-                    <button onclick="sendQ()" class="gold-bg px-6 rounded-xl text-slate-900 font-bold">إرسال</button>
+            <div class="glass p-6 rounded-[2rem]">
+                <h3 class="font-bold mb-4 text-[#c5a059]">منتدى الأسئلة (المدرس فقط من يرى سؤالك)</h3>
+                <div class="flex gap-2">
+                    <input id="qText" type="text" placeholder="اكتب سؤالك هنا..." class="flex-1 input-style p-4 rounded-xl outline-none text-right">
+                    <button onclick="ask()" class="gold-gradient px-8 rounded-xl font-bold">إرسال</button>
                 </div>
-                <div id="qsList" class="space-y-4"></div>
+                <div id="qList" class="mt-6 space-y-4"></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-function getData(k){ return JSON.parse(localStorage.getItem(k)) || []; }
-function saveData(k,d){ localStorage.setItem(k, JSON.stringify(d)); }
+    // Logic (تحسينات الأمان والربط)
+    const store = (k,v)=>localStorage.setItem(k,JSON.stringify(v));
+    const get = (k)=>JSON.parse(localStorage.getItem(k))||[];
 
-let currentUser = JSON.parse(sessionStorage.getItem('activeUser'));
-if(currentUser) showDashboard();
+    function toggleAuth(isReg) {
+        document.getElementById('loginForm').classList.toggle('hidden', isReg);
+        document.getElementById('regForm').classList.toggle('hidden', !isReg);
+    }
 
-function toggleAuth(){
-    document.getElementById('loginFields').classList.toggle('hidden');
-    document.getElementById('registerFields').classList.toggle('hidden');
-}
+    function doRegister() {
+        const n = document.getElementById('rName').value, p = document.getElementById('rPhone').value, 
+              pa = document.getElementById('rParent').value, g = document.getElementById('rGrade').value,
+              pw = document.getElementById('rPass').value;
+        if(!n || !p || !pw) return alert('برجاء ملء البيانات الأساسية');
+        let us = get('tafra_v2_users');
+        us.push({n,p,pa,g,pw});
+        store('tafra_v2_users', us);
+        alert('تم التسجيل! سجل دخولك الآن');
+        toggleAuth(false);
+    }
 
-function register(){
-    const name = document.getElementById('regName').value.trim();
-    const phone = document.getElementById('regPhone').value;
-    const parent = document.getElementById('regParentPhone').value;
-    const grade = document.getElementById('regGrade').value;
-    const pass = document.getElementById('regPass').value;
+    let user = null;
+    function doLogin() {
+        const n = document.getElementById('lName').value, p = document.getElementById('lPass').value;
+        user = get('tafra_v2_users').find(u => u.n === n && u.pw === p);
+        if(user) { 
+            document.getElementById('authScreen').classList.add('hidden');
+            document.getElementById('mainDashboard').classList.remove('hidden');
+            document.getElementById('uHeader').textContent = user.n;
+            loadLessons();
+        } else alert('بيانات الدخول غير صحيحة');
+    }
 
-    if(!name || !phone || !pass || !grade) return alert('برجاء إكمال البيانات');
-    
-    let users = getData('tafra_users');
-    if(users.find(u => u.name === name)) return alert('هذا الاسم مسجل مسبقاً');
+    function loadLessons() {
+        const ls = get('lessons');
+        document.getElementById('lessonSel').innerHTML = '<option>اختر المحاضرة</option>' + 
+            ls.map(l => `<option value="${l.id}">${l.title}</option>`).join('');
+    }
 
-    users.push({name, phone, parent, grade, pass});
-    saveData('tafra_users', users);
-    alert('تم إنشاء الحساب بنجاح! سجل دخولك الآن');
-    toggleAuth();
-}
+    let activeL = null;
+    function startLesson() {
+        const lid = document.getElementById('lessonSel').value, 
+              code = document.getElementById('lessonCode').value.toUpperCase();
+        const l = get('lessons').find(x => x.id == lid);
+        const valid = get('codes').find(c => c.code === code && c.lessonId == lid);
 
-function login(){
-    const name = document.getElementById('loginName').value.trim();
-    const pass = document.getElementById('loginPass').value;
-    let users = getData('tafra_users');
-    let user = users.find(u => u.name === name && u.pass === pass);
-    
-    if(user){
-        sessionStorage.setItem('activeUser', JSON.stringify(user));
-        currentUser = user;
-        showDashboard();
-    } else { alert('خطأ في الاسم أو كلمة المرور'); }
-}
+        if(valid) {
+            activeL = l;
+            document.getElementById('videoContainer').classList.remove('hidden');
+            const vidId = l.video.includes('v=') ? l.video.split('v=')[1].split('&')[0] : l.video.split('/').pop();
+            document.getElementById('ytPlayer').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
+            renderQs();
+        } else alert('الكود خاطئ لهذه المحاضرة');
+    }
 
-function showDashboard(){
-    document.getElementById('authArea').classList.add('hidden');
-    document.getElementById('mainContent').classList.remove('hidden');
-    document.getElementById('userNameHeader').textContent = 'مرحباً، ' + currentUser.name;
-    loadLessonOptions();
-}
+    function ask() {
+        const t = document.getElementById('qText').value; if(!t) return;
+        let qs = get('qs');
+        qs.push({id:Date.now(), u:user.n, lid:activeL.id, t, r:null});
+        store('qs', qs);
+        document.getElementById('qText').value = '';
+        renderQs();
+    }
 
-function loadLessonOptions(){
-    const lessons = getData('lessons');
-    const select = document.getElementById('lessonSelect');
-    select.innerHTML = '<option value="">اختر المحاضرة</option>' + 
-        lessons.map(l => `<option value="${l.id}">${l.title}</option>`).join('');
-}
+    function renderQs() {
+        const qs = get('qs').filter(q => q.lid === activeL.id && q.u === user.n);
+        document.getElementById('qList').innerHTML = qs.map(q => `
+            <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
+                <p class="text-xs text-gray-500 mb-1">سؤالك:</p>
+                <p class="text-sm">${q.t}</p>
+                ${q.r ? `<div class="mt-3 p-3 bg-[#c5a059]/10 border-r-2 border-[#c5a059] text-xs text-[#c5a059]">رد الميس: ${q.r}</div>` : ''}
+            </div>
+        `).reverse().join('');
+    }
 
-let activeLesson = null;
-function unlockLesson(){
-    const lessonId = document.getElementById('lessonSelect').value;
-    const codeIn = document.getElementById('lessonCode').value.trim().toUpperCase();
-    const codes = getData('codes');
-    const lesson = getData('lessons').find(l => l.id == lessonId);
-
-    const validCode = codes.find(c => c.code === codeIn && c.lessonId == lessonId);
-    
-    if(validCode){
-        activeLesson = lesson;
-        document.getElementById('videoArea').classList.remove('hidden');
-        const vidId = lesson.video.split('v=')[1]?.split('&')[0] || lesson.video.split('/').pop();
-        document.getElementById('player').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}?rel=0" frameborder="0" allowfullscreen></iframe>`;
-        loadQs();
-    } else { alert('الكود غير صحيح لهذه المحاضرة'); }
-}
-
-function sendQ(){
-    const txt = document.getElementById('qInput').value.trim();
-    if(!txt) return;
-    let qs = getData('questions');
-    qs.push({id: Date.now(), student: currentUser.name, lessonId: activeLesson.id, text: txt, reply: null});
-    saveData('questions', qs);
-    document.getElementById('qInput').value = '';
-    loadQs();
-}
-
-function loadQs(){
-    const qs = getData('questions').filter(q => q.lessonId === activeLesson.id);
-    document.getElementById('qsList').innerHTML = qs.map(q => `
-        <div class="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
-            <p class="text-xs gold-text mb-1">${q.student}:</p>
-            <p class="text-sm">${q.text}</p>
-            ${q.reply ? `<div class="mt-2 p-2 bg-blue-900/20 border-r-2 border-blue-400 text-xs">${q.reply}</div>` : ''}
-        </div>
-    `).reverse().join('');
-}
-
-function logout(){ sessionStorage.clear(); location.reload(); }
+    function logout() { location.reload(); }
 </script>
 </body>
 </html>
+
