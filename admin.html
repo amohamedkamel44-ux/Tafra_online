@@ -187,4 +187,22 @@ function loadCodes() {
 </script>
 </body>
   </html>
-  
+  // تعديل وظيفة توليد الكود لربطه بدرس معين
+function generateCode() {
+    const lessonId = document.getElementById('lessonSelect').value; // لازم تضيف Select للدروس في الـ HTML
+    if(!lessonId) return alert('اختر الدرس أولاً');
+    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const c = getData('codes');
+    c.push({code, lessonId: parseInt(lessonId), used: false});
+    saveData('codes', c);
+    // ... إظهار الكود
+}
+
+// وظيفة الرد على الأسئلة (تظهر في تبويب جديد اسمه الأسئلة)
+function replyToQuestion(qId, replyText) {
+    let qs = getData('questions');
+    qs = qs.map(q => q.id === qId ? {...q, reply: replyText} : q);
+    saveData('questions', qs);
+    loadAdminQuestions();
+}
+
