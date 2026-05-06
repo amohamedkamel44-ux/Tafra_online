@@ -1,103 +1,162 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
-<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>إدارة الطفرة أونلاين</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap" rel="stylesheet"/>
-<style>
-    body { font-family: 'Almarai', sans-serif; background: #f8fafc; color: #1e293b; }
-    .sidebar { background: #0f172a; color: white; }
-    .nav-btn { width: 100%; text-align: right; padding: 1rem; border-radius: 0.75rem; margin-bottom: 0.5rem; transition: 0.3s; }
-    .nav-btn:hover, .nav-btn.active { background: #334155; color: #fbbf24; }
-</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم الطفرة - ميس ندى كامل</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #f1f5f9; }
+        .sidebar { background: #050a18; }
+        .stat-card { background: white; border-radius: 1.5rem; transition: 0.3s; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .active-tab { background: #c5a059 !important; color: #050a18 !important; }
+    </style>
 </head>
 <body class="flex min-h-screen">
 
-<div class="sidebar w-64 p-6 hidden md:block">
-    <h1 class="text-2xl font-black mb-8 gold-text">لوحة الإدارة</h1>
-    <nav>
-        <button onclick="showTab('lessons')" class="nav-btn active">📚 إدارة الحصص</button>
-        <button onclick="showTab('codes')" class="nav-btn">🔑 الأكواد</button>
-        <button onclick="showTab('users')" class="nav-btn">👥 الطلاب المسجلين</button>
-        <button onclick="showTab('questions')" class="nav-btn">💬 الأسئلة</button>
+<aside class="sidebar w-72 p-8 text-white hidden lg:block sticky top-0 h-screen">
+    <div class="mb-12">
+        <h1 class="text-3xl font-900 text-[#c5a059]">الطفرة</h1>
+        <p class="text-xs text-gray-500">لوحة الإدارة الشاملة</p>
+    </div>
+    <nav class="space-y-4">
+        <button onclick="tab('lessons')" id="btn-lessons" class="w-full p-4 rounded-2xl text-right transition active-tab">📚 إدارة المحاضرات</button>
+        <button onclick="tab('codes')" id="btn-codes" class="w-full p-4 rounded-2xl text-right transition">🔑 توليد الأكواد</button>
+        <button onclick="tab('users')" id="btn-users" class="w-full p-4 rounded-2xl text-right transition">👥 قائمة الطلاب</button>
+        <button onclick="tab('qs')" id="btn-qs" class="w-full p-4 rounded-2xl text-right transition">💬 الرد على الأسئلة</button>
     </nav>
-</div>
+</aside>
 
-<main class="flex-1 p-8">
-    <div id="tab-lessons" class="tab-content">
-        <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-bold">الحصص المرفوعة</h2>
-            <button onclick="openModal()" class="bg-blue-600 text-white px-6 py-2 rounded-xl">+ إضافة حصة</button>
+<main class="flex-1 p-10 overflow-y-auto">
+    <header class="flex justify-between items-center mb-10">
+        <div>
+            <h2 id="tabTitle" class="text-3xl font-900">إدارة المحاضرات</h2>
+            <p class="text-gray-500 mt-1">تحكم في كل شيء من مكان واحد</p>
         </div>
-        <div id="lessonsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        <div class="bg-[#c5a059]/10 text-[#c5a059] px-6 py-2 rounded-full font-bold">ميس ندى كامل</div>
+    </header>
+
+    <div id="view-lessons" class="tabs animate-show">
+        <div class="bg-white p-6 rounded-3xl mb-8 border border-gray-100">
+            <h3 class="font-bold mb-4">إضافة محاضرة جديدة</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input id="lTitle" type="text" placeholder="عنوان الدرس" class="bg-gray-50 border p-4 rounded-xl outline-none">
+                <input id="lVid" type="text" placeholder="رابط يوتيوب" class="bg-gray-50 border p-4 rounded-xl outline-none">
+                <button onclick="addL()" class="bg-blue-600 text-white rounded-xl font-bold">حفظ المحاضرة</button>
+            </div>
+        </div>
+        <div id="lList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
     </div>
 
-    <div id="tab-users" class="tab-content hidden">
-        <h2 class="text-2xl font-bold mb-6">قائمة الطلاب</h2>
-        <div class="bg-white rounded-2xl shadow overflow-hidden">
+    <div id="view-codes" class="tabs hidden animate-show">
+        <div class="bg-white p-8 rounded-3xl border border-gray-100 text-center max-w-md mx-auto shadow-sm">
+            <select id="codeL" class="w-full p-4 mb-4 border rounded-xl outline-none"></select>
+            <button onclick="genC()" class="w-full bg-[#c5a059] p-4 rounded-xl font-bold text-lg mb-6">توليد كود جديد</button>
+            <div id="cResult" class="hidden p-6 bg-green-50 border-2 border-dashed border-green-200 rounded-2xl">
+                <p class="text-xs text-green-600 mb-1">الكود جاهز للإرسال:</p>
+                <h4 id="cText" class="text-4xl font-black text-green-800 tracking-widest"></h4>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-users" class="tabs hidden animate-show">
+        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             <table class="w-full text-right">
-                <thead class="bg-slate-50 border-b">
-                    <tr>
-                        <th class="p-4">الاسم</th><th class="p-4">الموبايل</th><th class="p-4">ولي الأمر</th><th class="p-4">السنة</th>
-                    </tr>
+                <thead class="bg-gray-50 text-gray-500 uppercase text-sm">
+                    <tr><th class="p-6">الاسم</th><th class="p-6">الموبايل</th><th class="p-6">ولي الأمر</th><th class="p-6">السنة</th></tr>
                 </thead>
-                <tbody id="usersList"></tbody>
+                <tbody id="uList"></tbody>
             </table>
         </div>
     </div>
 
-    <div id="tab-questions" class="tab-content hidden">
-        <h2 class="text-2xl font-bold mb-6">أسئلة الطلاب المنتظرة</h2>
-        <div id="adminQsList" class="space-y-4"></div>
+    <div id="view-qs" class="tabs hidden animate-show">
+        <div id="qAdminList" class="space-y-4"></div>
     </div>
 </main>
 
 <script>
-// الوظائف البرمجية (JavaScript) لإدارة البيانات والردود
-function getData(k){ return JSON.parse(localStorage.getItem(k)) || []; }
-function saveData(k,d){ localStorage.setItem(k, JSON.stringify(d)); }
+    const store = (k,v)=>localStorage.setItem(k,JSON.stringify(v));
+    const get = (k)=>JSON.parse(localStorage.getItem(k))||[];
 
-function showTab(tab){
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-    document.getElementById('tab-' + tab).classList.remove('hidden');
-    if(tab === 'users') loadUsers();
-    if(tab === 'questions') loadAdminQs();
-}
+    function tab(t) {
+        document.querySelectorAll('.tabs').forEach(x=>x.classList.add('hidden'));
+        document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active-tab'));
+        document.getElementById('view-'+t).classList.remove('hidden');
+        document.getElementById('btn-'+t).classList.add('active-tab');
+        if(t==='users') loadU();
+        if(t==='lessons') loadL();
+        if(t==='codes') loadCL();
+        if(t==='qs') loadQ();
+    }
 
-function loadUsers(){
-    const users = getData('tafra_users');
-    document.getElementById('usersList').innerHTML = users.map(u => `
-        <tr class="border-b">
-            <td class="p-4 font-bold">${u.name}</td>
-            <td class="p-4">${u.phone}</td>
-            <td class="p-4">${u.parent}</td>
-            <td class="p-4 text-blue-600">${u.grade}</td>
-        </tr>
-    `).join('');
-}
+    function addL() {
+        const t = document.getElementById('lTitle').value, v = document.getElementById('lVid').value;
+        if(!t || !v) return;
+        let ls = get('lessons'); ls.push({id:Date.now(), title:t, video:v});
+        store('lessons', ls); loadL();
+    }
 
-function loadAdminQs(){
-    const qs = getData('questions').filter(q => !q.reply);
-    document.getElementById('adminQsList').innerHTML = qs.map(q => `
-        <div class="bg-white p-6 rounded-2xl shadow-sm border">
-            <p class="text-sm text-blue-500 mb-2">${q.student}:</p>
-            <p class="mb-4">${q.text}</p>
-            <div class="flex gap-2">
-                <input id="rep-${q.id}" type="text" placeholder="اكتب الرد هنا..." class="flex-1 border p-2 rounded-lg"/>
-                <button onclick="sendReply(${q.id})" class="bg-green-600 text-white px-4 rounded-lg">رد</button>
+    function loadL() {
+        const ls = get('lessons');
+        document.getElementById('lList').innerHTML = ls.map(l => `
+            <div class="stat-card p-6 border border-gray-100 flex justify-between items-center">
+                <div><h4 class="font-bold">${l.title}</h4><p class="text-xs text-gray-400">ID: ${l.id}</p></div>
+                <button onclick="delL(${l.id})" class="text-red-500 font-bold">حذف</button>
             </div>
-        </div>
-    `).join('');
-}
+        `).join('');
+    }
 
-function sendReply(id){
-    const txt = document.getElementById('rep-'+id).value;
-    let qs = getData('questions');
-    qs = qs.map(q => q.id == id ? {...q, reply: txt} : q);
-    saveData('questions', qs);
-    loadAdminQs();
-}
+    function loadCL() {
+        const ls = get('lessons');
+        document.getElementById('codeL').innerHTML = ls.map(l=>`<option value="${l.id}">${l.title}</option>`).join('');
+    }
+
+    function genC() {
+        const lid = document.getElementById('codeL').value; if(!lid) return;
+        const code = Math.random().toString(36).substring(2,8).toUpperCase();
+        let cs = get('codes'); cs.push({code, lessonId: lid}); store('codes', cs);
+        document.getElementById('cText').textContent = code;
+        document.getElementById('cResult').classList.remove('hidden');
+    }
+
+    function loadU() {
+        const us = get('tafra_v2_users');
+        document.getElementById('uList').innerHTML = us.map(u => `
+            <tr class="border-b">
+                <td class="p-6 font-bold">${u.n}</td>
+                <td class="p-6">${u.p}</td>
+                <td class="p-6">${u.pa}</td>
+                <td class="p-6 text-blue-600 font-bold">${u.g}</td>
+            </tr>
+        `).join('');
+    }
+
+    function loadQ() {
+        const qs = get('qs').filter(q => !q.r);
+        document.getElementById('qAdminList').innerHTML = qs.map(q => `
+            <div class="stat-card p-6 border">
+                <p class="text-sm text-blue-500 font-bold">${q.u}:</p>
+                <p class="mb-4">${q.t}</p>
+                <div class="flex gap-2">
+                    <input id="rep-${q.id}" type="text" placeholder="اكتب الرد هنا..." class="flex-1 bg-gray-50 p-3 rounded-xl border">
+                    <button onclick="reply(${q.id})" class="bg-blue-600 text-white px-6 rounded-xl">إرسال الرد</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function reply(id) {
+        const r = document.getElementById('rep-'+id).value;
+        let qs = get('qs'); qs = qs.map(q => q.id==id ? {...q, r} : q);
+        store('qs', qs); loadQ();
+    }
+    
+    function delL(id) { if(confirm('حذف؟')){ let ls=get('lessons'); ls=ls.filter(x=>x.id!=id); store('lessons', ls); loadL(); } }
+
+    window.onload = loadL;
 </script>
 </body>
 </html>
