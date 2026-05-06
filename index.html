@@ -1,99 +1,116 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html dir="rtl" lang="ar">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>منصة الطفرة أونلاين | ميس ندى كامل</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <style>
-        body {
-            font-family: 'Almarai', sans-serif;
-            background-color: #faf9f9;
-        }
-        .glass-effect {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-        }
-    </style>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>الطفرة أونلاين - منصة الطالب</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap" rel="stylesheet"/>
+<style>
+body { font-family: 'Almarai', sans-serif; background: #020617; color: white; user-select: none; }
+.gold-text { color: #fbbf24; }
+.gold-bg { background: linear-gradient(135deg, #fbbf24, #d97706); }
+.card { background: #0f172a; border: 1px solid #1e293b; }
+</style>
 </head>
-<body class="bg-surface">
+<body oncontextmenu="return false;">
 
-<header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md flex justify-between items-center px-6 md:px-12 h-20 border-b border-gray-100">
-    <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center shadow-sm">
-            <span class="material-symbols-outlined text-white">school</span>
+<div id="loginArea" class="min-h-screen flex items-center justify-center p-4">
+    <div class="card p-8 rounded-3xl w-full max-w-md shadow-2xl">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-black gold-text mb-2">الطفرة</h1>
+            <p class="text-slate-400">بوابة الطالب - ميس ندى كامل</p>
         </div>
-        <span class="text-2xl font-bold text-blue-600">الطفرة أونلاين</span>
+        <div class="space-y-4">
+            <input id="studentName" type="text" placeholder="الاسم الثلاثي" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl outline-none focus:border-amber-500 text-right"/>
+            <input id="lessonCode" type="text" placeholder="كود الحصة" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl outline-none focus:border-amber-500 text-center font-bold uppercase tracking-widest"/>
+            <button onclick="entryLesson()" class="w-full gold-bg p-4 rounded-xl font-bold text-slate-900 text-lg shadow-lg">دخول الحصة</button>
+        </div>
     </div>
-    <nav class="hidden lg:flex items-center gap-6 text-gray-600 font-medium">
-        <a href="#" class="text-blue-600 border-b-2 border-blue-600">الرئيسية</a>
-        <a href="#">عن المنصة</a>
-        <a href="#">اتصل بنا</a>
+</div>
+
+<div id="lessonPage" class="hidden min-h-screen">
+    <nav class="p-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/50 sticky top-0 z-50">
+        <span id="viewTitle" class="font-bold gold-text">اسم الدرس</span>
+        <button onclick="location.reload()" class="bg-red-500/10 text-red-500 px-4 py-1 rounded-lg text-sm">خروج</button>
     </nav>
-    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg font-bold">تسجيل دخول</button>
-</header>
 
-<main class="pt-32 pb-24 px-6 max-w-7xl mx-auto text-center">
-    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 font-bold text-sm mb-6">
-        <span class="material-symbols-outlined text-sm">auto_awesome</span>
-        <span>بسطتهالك للأخر</span>
-    </div>
-    <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
-        مستقبلك يبدأ من <br/>
-        <span class="text-blue-600">فهمك العميق</span>
-    </h1>
-    <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-10">
-        منصة الطفرة التعليمية مع ميس ندى كامل، حيث تتحول المواد الصعبة إلى رحلة ممتعة وشيقة نحو النجاح والتفوق.
-    </p>
+    <main class="max-w-4xl mx-auto p-4 pb-24">
+        <div class="aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-slate-800 mb-6">
+            <div id="videoContainer" class="w-full h-full"></div>
+        </div>
+
+        <div class="card p-6 rounded-2xl mb-6">
+            <h3 class="font-bold mb-4 flex items-center gap-2 text-amber-500">
+                <span class="material-symbols-outlined">question_answer</span> منتدى الأسئلة
+            </h3>
+            <div class="flex gap-2 mb-6">
+                <input id="questionInput" type="text" placeholder="اكتب سؤالك هنا..." class="flex-1 bg-slate-900 border border-slate-700 p-3 rounded-xl outline-none focus:border-amber-500 text-right text-sm"/>
+                <button onclick="sendQuestion()" class="gold-bg px-6 rounded-xl text-slate-900 font-bold text-sm">إرسال</button>
+            </div>
+            <div id="questionsList" class="space-y-4 text-right">
+                </div>
+        </div>
+    </main>
+</div>
+
+<script>
+let currentStudent = null;
+let currentLesson = null;
+
+function getData(k){ return JSON.parse(localStorage.getItem(k)) || []; }
+function saveData(k,d){ localStorage.setItem(k, JSON.stringify(d)); }
+
+function entryLesson() {
+    const name = document.getElementById('studentName').value.trim();
+    const codeIn = document.getElementById('lessonCode').value.trim().toUpperCase();
+    if(!name || !codeIn) return alert('برجاء إدخال البيانات');
+
+    const codes = getData('codes');
+    const codeObj = codes.find(c => c.code === codeIn);
+
+    if(!codeObj) return alert('الكود خطأ!');
     
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 text-right">
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition-all cursor-pointer">
-            <span class="material-symbols-outlined text-blue-600 text-5xl mb-4">school</span>
-            <h3 class="text-2xl font-bold mb-2">المرحلة الإعدادية</h3>
-            <p class="text-gray-500">نأسسك صح للمستقبل، بأسلوب مبسط وممتع يخليك تحب المذاكرة.</p>
-        </div>
-        <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl transition-all cursor-pointer">
-            <span class="material-symbols-outlined text-orange-500 text-5xl mb-4">workspace_premium</span>
-            <h3 class="text-2xl font-bold mb-2">المرحلة الثانوية</h3>
-            <p class="text-gray-500">طريقك للقمة يبدأ هنا. شرح تفصيلي، بنك أسئلة، ومتابعة دورية.</p>
-        </div>
-    </div>
+    // ربط الكود بدرس واحد فقط للأبد
+    const lessons = getData('lessons');
+    currentLesson = lessons.find(l => l.id === codeObj.lessonId);
+    
+    if(!currentLesson) return alert('هذا الكود غير مرتبط بدرس حالياً');
 
-    <div class="mt-20 bg-white p-8 rounded-3xl shadow-lg max-w-xl mx-auto text-right border border-blue-50">
-        <h2 class="text-2xl font-bold text-center mb-8 text-blue-700">سجل بياناتك للانضمام للطفرة</h2>
-        <form class="space-y-4">
-            <div>
-                <label class="block text-sm font-bold mb-1">اسم الطالب</label>
-                <input type="text" class="w-full border-gray-200 rounded-xl p-3 focus:ring-blue-500" placeholder="اكتب اسمك الثلاثي">
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-bold mb-1">رقم الموبايل</label>
-                    <input type="tel" class="w-full border-gray-200 rounded-xl p-3" placeholder="01xxxxxxxxx">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold mb-1">رقم ولي الأمر</label>
-                    <input type="tel" class="w-full border-gray-200 rounded-xl p-3" placeholder="01xxxxxxxxx">
-                </div>
-            </div>
-            <div>
-                <label class="block text-sm font-bold mb-1">المرحلة الدراسية</label>
-                <select class="w-full border-gray-200 rounded-xl p-3">
-                    <option>أولى إعدادي</option>
-                    <option>تانية إعدادي</option>
-                    <option>تالتة إعدادي</option>
-                    <option>أولى ثانوي</option>
-                    <option>تانية ثانوي</option>
-                    <option>تالتة ثانوي</option>
-                </select>
-            </div>
-            <button type="button" class="w-full py-4 bg-blue-600 text-white rounded-xl font-bold text-lg shadow-md hover:bg-blue-700 transition-colors">إنشاء حساب جديد</button>
-        </form>
-    </div>
-</main>
+    currentStudent = name;
+    document.getElementById('loginArea').classList.add('hidden');
+    document.getElementById('lessonPage').classList.remove('hidden');
+    document.getElementById('viewTitle').textContent = currentLesson.title;
 
+    const vidId = currentLesson.video.split('v=')[1]?.split('&')[0] || currentLesson.video.split('/').pop();
+    document.getElementById('videoContainer').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
+    loadQuestions();
+}
+
+function sendQuestion() {
+    const txt = document.getElementById('questionInput').value.trim();
+    if(!txt) return;
+    const qs = getData('questions');
+    qs.push({ id: Date.now(), student: currentStudent, lessonId: currentLesson.id, text: txt, reply: null });
+    saveData('questions', qs);
+    document.getElementById('questionInput').value = '';
+    loadQuestions();
+}
+
+function loadQuestions() {
+    const qs = getData('questions').filter(q => q.lessonId === currentLesson.id);
+    document.getElementById('questionsList').innerHTML = qs.map(q => `
+        <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+            <p class="text-xs text-amber-500 mb-1">${q.student}:</p>
+            <p class="text-sm">${q.text}</p>
+            ${q.reply ? `<div class="mt-3 p-3 bg-blue-900/20 border-r-2 border-blue-500 text-xs">
+                <p class="text-blue-400 font-bold mb-1">رد المدرس:</p>
+                <p>${q.reply}</p>
+            </div>` : `<p class="text-[10px] text-slate-500 mt-2">قيد الانتظار...</p>`}
+        </div>
+    `).reverse().join('');
+}
+</script>
 </body>
-  </html>
+</html>
+
   
