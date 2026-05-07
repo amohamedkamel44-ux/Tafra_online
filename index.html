@@ -8,28 +8,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Cairo', sans-serif; background-color: #050a18; color: #fff; overflow-x: hidden; }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
         .gold-gradient { background: linear-gradient(135deg, #c5a059 0%, #f7dc9b 50%, #c5a059 100%); color: #050a18; }
-        .input-style { background: #0f172a; border: 1px solid #1e293b; transition: 0.3s; }
-        .input-style:focus { border-color: #c5a059; box-shadow: 0 0 10px rgba(197, 160, 89, 0.2); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-show { animation: fadeIn 0.6s ease-out forwards; }
+        .input-style { background: #0f172a; border: 1px solid #1e293b; transition: 0.3s; color: white; }
+        .input-style:focus { border-color: #c5a059; box-shadow: 0 0 15px rgba(197, 160, 89, 0.3); }
+        .watermark { position: absolute; top: 20%; left: 30%; opacity: 0.3; pointer-events: none; color: white; font-size: 14px; z-index: 100; user-select: none; }
+        .tab-btn.active { background: #c5a059; color: #050a18; font-weight: bold; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-<div id="authScreen" class="min-h-screen flex items-center justify-center p-6">
-    <div class="glass p-10 rounded-[2rem] w-full max-w-md animate-show shadow-2xl">
+<div id="authScreen" class="min-h-screen flex items-center justify-center p-6 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a237e33] via-[#050a18] to-[#050a18]">
+    <div class="glass p-8 rounded-[2.5rem] w-full max-w-md animate-show shadow-2xl border-t-2 border-[#c5a059]/30">
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-900 mb-2" style="color: #c5a059;">الطفرة</h1>
-            <p class="text-gray-400 text-sm">بوابة الطالب الذكية - ميس ندى كامل</p>
+            <h1 class="text-5xl font-900 mb-2 tracking-tighter" style="color: #c5a059;">الطفرة</h1>
+            <p class="text-gray-400 text-sm">ميس ندى كامل - بوابة التميز</p>
         </div>
 
-        <div id="loginForm" class="space-y-5">
-            <input id="lName" type="text" placeholder="الاسم الثلاثي" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+        <div id="loginForm" class="space-y-4">
+            <input id="lPhone" type="tel" placeholder="رقم الموبايل" class="input-style w-full p-4 rounded-2xl outline-none text-right">
             <input id="lPass" type="password" placeholder="كلمة المرور" class="input-style w-full p-4 rounded-2xl outline-none text-right">
-            <button onclick="doLogin()" class="gold-gradient w-full py-4 rounded-2xl font-bold text-lg hover:scale-[1.02] transition">دخول المنصة</button>
-            <p class="text-center text-sm">طالب جديد؟ <span onclick="toggleAuth(true)" class="text-[#c5a059] cursor-pointer font-bold">أنشئ حسابك الآن</span></p>
+            <button onclick="doLogin()" id="loginBtn" class="gold-gradient w-full py-4 rounded-2xl font-bold text-lg hover:brightness-110 transition shadow-lg shadow-[#c5a059]/20">دخول الطالب</button>
+            <p class="text-center text-sm text-gray-400">طالب جديد؟ <span onclick="toggleAuth(true)" class="text-[#c5a059] cursor-pointer font-bold underline">أنشئ حسابك</span></p>
         </div>
 
         <div id="regForm" class="space-y-4 hidden">
@@ -37,130 +37,148 @@
             <input id="rPhone" type="tel" placeholder="رقم موبايلك" class="input-style w-full p-4 rounded-2xl outline-none text-right">
             <input id="rParent" type="tel" placeholder="رقم ولي الأمر" class="input-style w-full p-4 rounded-2xl outline-none text-right">
             <select id="rGrade" class="input-style w-full p-4 rounded-2xl outline-none text-right">
-                <option value="">السنة الدراسية</option>
-                <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
+                <option value="">اختر المرحلة الدراسية</option>
+                <optgroup label="المرحلة الابتدائية"><option>رابعة ابتدائي</option><option>خامسة ابتدائي</option><option>ستة ابتدائي</option></optgroup>
+                <optgroup label="المرحلة الإعدادية"><option>أولى إعدادي</option><option>ثانية إعدادي</option><option>ثالثة إعدادي</option></optgroup>
+                <optgroup label="المرحلة الثانوية"><option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option></optgroup>
             </select>
-            <input id="rPass" type="password" placeholder="كلمة مرور قوية" class="input-style w-full p-4 rounded-2xl outline-none text-right">
-            <button onclick="doRegister()" class="gold-gradient w-full py-4 rounded-2xl font-bold text-lg">تأكيد التسجيل</button>
-            <p class="text-center text-sm" onclick="toggleAuth(false)">لديك حساب؟ <span class="text-[#c5a059] cursor-pointer font-bold">سجل دخولك</span></p>
+            <input id="rPass" type="password" placeholder="كلمة مرور" class="input-style w-full p-4 rounded-2xl outline-none text-right">
+            <button onclick="doRegister()" id="regBtn" class="gold-gradient w-full py-4 rounded-2xl font-bold text-lg">تأكيد البيانات</button>
+            <p class="text-center text-sm text-gray-400" onclick="toggleAuth(false)">عندك حساب؟ <span class="text-[#c5a059] cursor-pointer font-bold underline">سجل دخول</span></p>
         </div>
     </div>
 </div>
 
-<div id="mainDashboard" class="hidden min-h-screen">
-    <header class="p-6 flex justify-between items-center border-b border-white/10 bg-[#050a18]/80 sticky top-0 z-50">
+<div id="mainDashboard" class="hidden min-h-screen pb-10">
+    <nav class="p-6 flex justify-between items-center border-b border-white/10 bg-[#050a18]/90 sticky top-0 z-50 backdrop-blur-md">
         <div class="flex items-center gap-3">
-            <div class="w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]"></div>
-            <span id="uHeader" class="font-bold text-[#c5a059]"></span>
-        </div>
-        <button onclick="logout()" class="text-red-400 text-sm font-bold border border-red-400/30 px-4 py-2 rounded-xl hover:bg-red-400/10">خروج</button>
-    </header>
-
-    <div class="max-w-4xl mx-auto p-6">
-        <div class="glass p-8 rounded-[2rem] mb-8 animate-show">
-            <h2 class="text-2xl font-bold mb-6 text-center">أهلاً بك في رحلة التميز ✨</h2>
-            <div class="space-y-4">
-                <select id="lessonSel" class="input-style w-full p-4 rounded-2xl outline-none text-right"></select>
-                <input id="lessonCode" type="text" placeholder="ادخل كود المحاضرة" class="input-style w-full p-4 rounded-2xl outline-none text-center font-black text-xl tracking-[0.3em]">
-                <button onclick="startLesson()" class="gold-gradient w-full py-4 rounded-2xl font-bold text-lg shadow-[0_10px_20px_rgba(197,160,89,0.2)]">مشاهدة الآن</button>
+            <div class="w-10 h-10 rounded-full gold-gradient flex items-center justify-center font-bold text-xl">👤</div>
+            <div>
+                <p id="uHeader" class="font-bold text-[#c5a059] leading-none"></p>
+                <p class="text-[10px] text-gray-400 mt-1 uppercase tracking-widest">Student Portal</p>
             </div>
         </div>
+        <button onclick="location.reload()" class="bg-red-500/10 text-red-400 text-xs px-4 py-2 rounded-lg border border-red-500/20">خروج</button>
+    </nav>
 
-        <div id="videoContainer" class="hidden space-y-6">
-            <div class="rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl bg-black">
-                <div id="ytPlayer" class="aspect-video"></div>
-            </div>
-            
-            <div class="glass p-6 rounded-[2rem]">
-                <h3 class="font-bold mb-4 text-[#c5a059]">منتدى الأسئلة (المدرس فقط من يرى سؤالك)</h3>
-                <div class="flex gap-2">
-                    <input id="qText" type="text" placeholder="اكتب سؤالك هنا..." class="flex-1 input-style p-4 rounded-xl outline-none text-right">
-                    <button onclick="ask()" class="gold-gradient px-8 rounded-xl font-bold">إرسال</button>
+    <div class="max-w-5xl mx-auto p-4">
+        <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
+            <button onclick="showTab('lessons')" class="tab-btn active flex-1 py-3 rounded-xl border border-white/10 glass">🎥 المحاضرات</button>
+            <button onclick="showTab('homework')" class="tab-btn flex-1 py-3 rounded-xl border border-white/10 glass">📝 الواجب</button>
+            <button onclick="showTab('exams')" class="tab-btn flex-1 py-3 rounded-xl border border-white/10 glass">🏆 الامتحانات</button>
+        </div>
+
+        <div id="tabContent" class="space-y-6">
+            <div id="lessonsTab" class="animate-show">
+                <div class="glass p-6 rounded-[2rem] text-center mb-6">
+                    <h3 class="text-[#c5a059] font-bold mb-4">فتح محاضرة جديدة</h3>
+                    <div class="flex gap-2">
+                        <input id="lCode" type="text" placeholder="ادخل كود السنتر" class="input-style flex-1 p-4 rounded-xl outline-none text-center font-bold">
+                        <button onclick="unlockLesson()" class="gold-gradient px-6 rounded-xl font-bold">تفعيل</button>
+                    </div>
                 </div>
-                <div id="qList" class="mt-6 space-y-4"></div>
+                
+                <div id="videoBox" class="hidden">
+                    <div class="relative rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-black aspect-video">
+                        <div id="wm" class="watermark"></div>
+                        <iframe id="player" width="100%" height="100%" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                    <div class="mt-4 glass p-4 rounded-xl">
+                        <h4 id="vTitle" class="font-bold text-lg text-[#c5a059]">جاري تحميل المحاضرة...</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div id="homeworkTab" class="hidden animate-show">
+                <div class="glass p-8 rounded-[2rem] text-center border-dashed border-2 border-[#c5a059]/30">
+                    <p class="text-gray-400">لا يوجد واجبات مطلوبة حالياً</p>
+                    <button class="mt-4 gold-gradient px-8 py-2 rounded-lg text-sm font-bold">رفع ملف الواجب</button>
+                </div>
+            </div>
+
+            <div id="examsTab" class="hidden animate-show">
+                <div class="glass p-6 rounded-[2rem] flex justify-between items-center border-r-4 border-yellow-500">
+                    <div>
+                        <h4 class="font-bold">امتحان تجريبي الشامل</h4>
+                        <p class="text-xs text-gray-400">المدة: 30 دقيقة</p>
+                    </div>
+                    <button class="bg-yellow-500 text-black px-6 py-2 rounded-xl font-bold text-sm">ابدأ الآن</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // Logic (تحسينات الأمان والربط)
-    const store = (k,v)=>localStorage.setItem(k,JSON.stringify(v));
-    const get = (k)=>JSON.parse(localStorage.getItem(k))||[];
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1dKwMk-uPJiBETA7PI8EWKVyMkNfVXVin2RB0sZTRz6yW6kf-MjXwmprTQXKEn7skCQ/exec";
+    let userData = null;
 
     function toggleAuth(isReg) {
         document.getElementById('loginForm').classList.toggle('hidden', isReg);
         document.getElementById('regForm').classList.toggle('hidden', !isReg);
     }
 
-    function doRegister() {
-        const n = document.getElementById('rName').value, p = document.getElementById('rPhone').value, 
-              pa = document.getElementById('rParent').value, g = document.getElementById('rGrade').value,
-              pw = document.getElementById('rPass').value;
-        if(!n || !p || !pw) return alert('برجاء ملء البيانات الأساسية');
-        let us = get('tafra_v2_users');
-        us.push({n,p,pa,g,pw});
-        store('tafra_v2_users', us);
-        alert('تم التسجيل! سجل دخولك الآن');
+    function showTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.target.classList.add('active');
+        document.getElementById('lessonsTab').classList.add('hidden');
+        document.getElementById('homeworkTab').classList.add('hidden');
+        document.getElementById('examsTab').classList.add('hidden');
+        document.getElementById(tab + 'Tab').classList.remove('hidden');
+    }
+
+    async function doRegister() {
+        const data = {
+            name: document.getElementById('rName').value,
+            phone: document.getElementById('rPhone').value,
+            parent: document.getElementById('rParent').value,
+            grade: document.getElementById('rGrade').value,
+            pass: document.getElementById('rPass').value
+        };
+        if(!data.name || !data.phone || !data.pass) return alert('البيانات ناقصة!');
+        
+        document.getElementById('regBtn').innerText = "جاري إنشاء الحساب...";
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'register', data }) });
+        alert('تم التسجيل! ادخل الآن');
         toggleAuth(false);
+        document.getElementById('regBtn').innerText = "تأكيد البيانات";
     }
 
-    let user = null;
-    function doLogin() {
-        const n = document.getElementById('lName').value, p = document.getElementById('lPass').value;
-        user = get('tafra_v2_users').find(u => u.n === n && u.pw === p);
-        if(user) { 
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('mainDashboard').classList.remove('hidden');
-            document.getElementById('uHeader').textContent = user.n;
-            loadLessons();
-        } else alert('بيانات الدخول غير صحيحة');
+    async function doLogin() {
+        const phone = document.getElementById('lPhone').value, pass = document.getElementById('lPass').value;
+        document.getElementById('loginBtn').innerText = "جاري الدخول...";
+        
+        try {
+            const resp = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'login', data: { phone, pass } }) });
+            const res = await resp.json();
+            if(res.status === 'success') {
+                userData = res;
+                document.getElementById('authScreen').classList.add('hidden');
+                document.getElementById('mainDashboard').classList.remove('hidden');
+                document.getElementById('uHeader').innerText = res.name;
+                // إعداد العلامة المائية
+                const wm = document.getElementById('wm');
+                wm.innerText = res.name + " - " + res.phone;
+                setInterval(() => {
+                    wm.style.top = Math.random() * 80 + "%";
+                    wm.style.left = Math.random() * 70 + "%";
+                }, 5000);
+            } else { alert('خطأ في البيانات!'); }
+        } catch(e) { alert('مشكلة في الاتصال'); }
+        document.getElementById('loginBtn').innerText = "دخول الطالب";
     }
 
-    function loadLessons() {
-        const ls = get('lessons');
-        document.getElementById('lessonSel').innerHTML = '<option>اختر المحاضرة</option>' + 
-            ls.map(l => `<option value="${l.id}">${l.title}</option>`).join('');
+    function unlockLesson() {
+        const code = document.getElementById('lCode').value;
+        if(code === "123") { // مثال لكود تفعيل
+            document.getElementById('videoBox').classList.remove('hidden');
+            document.getElementById('player').src = "https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1"; 
+            document.getElementById('vTitle').innerText = "المحاضرة الأولى: أساسيات المادة";
+        } else {
+            alert('الكود غير صحيح أو مستخدم');
+        }
     }
-
-    let activeL = null;
-    function startLesson() {
-        const lid = document.getElementById('lessonSel').value, 
-              code = document.getElementById('lessonCode').value.toUpperCase();
-        const l = get('lessons').find(x => x.id == lid);
-        const valid = get('codes').find(c => c.code === code && c.lessonId == lid);
-
-        if(valid) {
-            activeL = l;
-            document.getElementById('videoContainer').classList.remove('hidden');
-            const vidId = l.video.includes('v=') ? l.video.split('v=')[1].split('&')[0] : l.video.split('/').pop();
-            document.getElementById('ytPlayer').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${vidId}?rel=0&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
-            renderQs();
-        } else alert('الكود خاطئ لهذه المحاضرة');
-    }
-
-    function ask() {
-        const t = document.getElementById('qText').value; if(!t) return;
-        let qs = get('qs');
-        qs.push({id:Date.now(), u:user.n, lid:activeL.id, t, r:null});
-        store('qs', qs);
-        document.getElementById('qText').value = '';
-        renderQs();
-    }
-
-    function renderQs() {
-        const qs = get('qs').filter(q => q.lid === activeL.id && q.u === user.n);
-        document.getElementById('qList').innerHTML = qs.map(q => `
-            <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
-                <p class="text-xs text-gray-500 mb-1">سؤالك:</p>
-                <p class="text-sm">${q.t}</p>
-                ${q.r ? `<div class="mt-3 p-3 bg-[#c5a059]/10 border-r-2 border-[#c5a059] text-xs text-[#c5a059]">رد الميس: ${q.r}</div>` : ''}
-            </div>
-        `).reverse().join('');
-    }
-
-    function logout() { location.reload(); }
 </script>
 </body>
-</html>
-
+    </html>
+            
