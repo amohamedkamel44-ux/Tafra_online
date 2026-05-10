@@ -3,188 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الطفرة أونلاين | ميس ندى كامل - لتعلم العلوم بطريقة مبتكرة</title>
-    <meta name="description" content="منصة الطفرة أونلاين التعليمية مع ميس ندى كامل، لشرح العلوم والفيزياء بطريقة مبسطة ومبتكرة للطلاب.">
-    <meta name="keywords" content="منصة الطفرة، الطفرة اونلاين، ميس ندى كامل، علوم، فيزياء، دروس اونلاين">
-    
+    <title>منصة الطفرة أونلاين | ميس ندى كامل</title>
+    <meta name="description" content="المنصة الأولى لشرح العلوم والفيزياء مع ميس ندى كامل. دروس تفاعلية، واجبات، وامتحانات.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    
     <style>
-        :root { --main-blue: #00bcd4; --dark-blue: #0097a7; --bg-gray: #f8f9fa; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg-gray); color: #333; margin: 0; }
+        :root { --main-cyan: #00bcd4; --soft-rose: #fff1f2; --bg: #f8f9fa; }
+        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); color: #333; overflow-x: hidden; }
         
-        .main-gradient { background: linear-gradient(135deg, #00d2ff, #3a7bd5); }
-        .text-gradient { background: linear-gradient(to right, #00d2ff, #3a7bd5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        /* Sidebar Style */
+        .sidebar { position: fixed; right: -100%; top: 0; width: 280px; height: 100%; background: white; z-index: 1000; transition: 0.4s; box-shadow: -5px 0 20px rgba(0,0,0,0.1); }
+        .sidebar.active { right: 0; }
         
-        /* تصميم المحاضرة - طبق الأصل من الصور */
-        .lecture-card { background: white; border-radius: 15px; margin-bottom: 20px; border: 1px solid #eee; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .lecture-header { padding: 20px; background: #fff1f2; display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-bottom: 1px solid #ffe4e6; }
-        .lecture-header.active { background: #fff; }
-        
-        .item-box { background: #fffdf2; border-radius: 12px; padding: 15px; display: flex; align-items: center; justify-content: space-between; margin: 10px; border: 1px dashed #ffe082; transition: 0.3s; cursor: pointer; }
-        .item-box:hover { transform: scale(1.01); background: #fff; border-color: var(--main-blue); }
-        
-        .sidebar { position: fixed; right: -100%; top: 0; width: 280px; height: 100%; background: white; z-index: 1000; transition: 0.4s; box-shadow: -5px 0 20px rgba(0,0,0,0.1); padding-top: 60px; }
-        .sidebar.open { right: 0; }
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; z-index: 999; }
-        
-        .btn-entry { background: var(--main-blue); color: white; padding: 12px; border-radius: 50px; font-weight: bold; width: 100%; display: block; text-align: center; box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3); }
+        /* Lecture Style (Bosta Style) */
+        .lecture-card { background: white; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; overflow: hidden; }
+        .lecture-header { padding: 18px; background: var(--soft-rose); display: flex; justify-content: space-between; cursor: pointer; font-weight: 900; }
+        .sub-item { background: #fffdf2; border: 1px dashed #ffe082; margin: 10px; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: 0.2s; }
+        .sub-item:hover { background: white; border-color: var(--main-cyan); }
+
+        .btn-cyan { background: var(--main-cyan); color: white; padding: 12px 25px; border-radius: 50px; font-weight: bold; transition: 0.3s; text-align: center; }
+        .admin-panel { background: #1e293b; color: white; min-height: 100vh; padding: 20px; }
         .hidden { display: none; }
-        
-        /* استايل النتائج والدورات */
-        .stat-circle { width: 80px; height: 80px; border-radius: 50%; border: 5px solid #eee; display: flex; items-center; justify-center; margin: auto; font-weight: 900; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; display: none; }
     </style>
 </head>
 <body>
 
-    <div id="overlay" class="overlay" onclick="closeMenu()"></div>
+    <div id="overlay" class="overlay" onclick="toggleMenu()"></div>
 
-    <div id="welcomeScreen" class="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-white">
-        <div class="w-24 h-24 main-gradient rounded-[25px] flex items-center justify-center mb-6 shadow-xl">
-            <span class="text-white text-4xl">🔬</span>
-        </div>
-        <h1 class="text-2xl font-bold mb-2">أهلاً بك في منصة</h1>
-        <h2 class="text-4xl font-black text-gradient mb-4">الطفرة اونلاين</h2>
-        <p class="text-slate-400 mb-10">منصتك لتعلم العلوم بطريقة مبتكرة وممتعة</p>
-        <button onclick="showAuth()" class="btn-entry max-w-xs mx-auto">اضغط هنا للدخول</button>
-        <div onclick="openAdmin()" class="mt-12 text-slate-200 text-[10px] cursor-pointer">دخول الإدارة</div>
-    </div>
-
-    <div id="authScreen" class="hidden min-h-screen flex items-center justify-center p-6 bg-slate-50">
-        <div class="w-full max-w-sm bg-white p-8 rounded-[30px] shadow-xl border border-slate-100">
-            <h3 class="text-2xl font-black mb-8 text-center">تسجيل الدخول 🎓</h3>
-            <input id="stuPhone" type="tel" placeholder="رقم الموبايل" class="w-full p-4 rounded-2xl border bg-slate-50 mb-4 outline-none focus:border-cyan-400">
-            <input id="stuPass" type="password" placeholder="كلمة المرور" class="w-full p-4 rounded-2xl border bg-slate-50 mb-8 outline-none focus:border-cyan-400">
-            <button onclick="handleLogin()" class="btn-entry">دخول المنصة</button>
+    <div id="loginPage" class="min-h-screen flex items-center justify-center p-6">
+        <div class="w-full max-w-sm bg-white p-8 rounded-[30px] shadow-2xl text-center">
+            <div class="w-20 h-20 bg-cyan-500 rounded-2xl mx-auto mb-6 flex items-center justify-center text-white text-4xl shadow-lg">🔬</div>
+            <h2 class="text-3xl font-black mb-2 text-cyan-600">الطفرة أونلاين</h2>
+            <p class="text-slate-400 mb-8">سجل دخولك لمتابعة دروسك</p>
+            <input id="phone" type="tel" placeholder="رقم الموبايل" class="w-full p-4 rounded-2xl border mb-4 outline-none focus:border-cyan-500 bg-slate-50">
+            <input id="pass" type="password" placeholder="كلمة المرور" class="w-full p-4 rounded-2xl border mb-6 outline-none focus:border-cyan-500 bg-slate-50">
+            <button onclick="login()" class="btn-cyan w-full py-4 shadow-lg">دخول للمنصة</button>
+            <p onclick="openAdmin()" class="mt-6 text-slate-300 text-xs cursor-pointer">لوحة التحكم للميس</p>
         </div>
     </div>
 
-    <div id="mainPlatform" class="hidden min-h-screen">
-        <nav class="bg-white px-6 py-4 border-b flex justify-between items-center sticky top-0 z-50">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="openMenu()">
-                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">👤</div>
-                <span id="navName" class="font-bold text-sm">طالب الطفرة</span>
+    <div id="studentPanel" class="hidden min-h-screen">
+        <nav class="bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-50">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="toggleMenu()">
+                <div class="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600 font-bold" id="userIcon"></div>
+                <span id="userName" class="font-bold text-sm"></span>
             </div>
-            <div class="font-black text-cyan-500">TAFRA</div>
-            <div class="text-xl">🔔</div>
+            <div class="font-black text-cyan-500 italic">TAFRA</div>
         </nav>
 
-        <div id="sidebar" class="sidebar">
-            <div class="px-6 py-4 space-y-6">
-                <div class="font-black text-lg border-b pb-4" id="sideName">أهلاً بك</div>
-                <div class="space-y-4">
-                    <div class="flex items-center gap-4 text-slate-600 font-bold cursor-pointer" onclick="switchTab('lessons')"><span>📺</span> محاضراتي</div>
-                    <div class="flex items-center gap-4 text-slate-600 font-bold cursor-pointer" onclick="switchTab('profile')"><span>📊</span> إحصائياتي</div>
-                    <div class="flex items-center gap-4 text-slate-600 font-bold cursor-pointer"><span>💳</span> شحن كود</div>
-                    <div class="flex items-center gap-4 text-red-500 font-bold cursor-pointer pt-10" onclick="logout()"><span>🚪</span> تسجيل خروج</div>
-                </div>
-            </div>
+        <div class="max-w-xl mx-auto p-4 pt-6">
+            <div id="lessonsList"></div>
         </div>
 
-        <div class="max-w-xl mx-auto p-4 pt-6">
-            <div id="tab-lessons" class="space-y-4">
-                <h3 class="font-black text-xl mb-6">المحاضرات المتاحة</h3>
-                <div id="lessonsContainer"></div>
+        <div id="sidebar" class="sidebar p-6 flex flex-col gap-6">
+            <div class="text-center border-b pb-4">
+                <div class="w-16 h-16 bg-cyan-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white text-2xl font-bold" id="sideIcon"></div>
+                <div id="sideName" class="font-black"></div>
+            </div>
+            <button onclick="switchTab('lessons')" class="flex items-center gap-3 font-bold text-slate-600">📺 محاضراتي</button>
+            <button onclick="showRecharge()" class="flex items-center gap-3 font-bold text-slate-600">💳 شحن كود</button>
+            <button onclick="logout()" class="mt-auto text-red-500 font-bold border-t pt-4">🚪 تسجيل خروج</button>
+        </div>
+    </div>
+
+    <div id="adminPanel" class="hidden admin-panel">
+        <div class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+            <h2 class="text-2xl font-black text-cyan-400">لوحة تحكم ميس ندى 👑</h2>
+            <button onclick="location.reload()" class="text-xs bg-slate-700 px-3 py-1 rounded">خروج</button>
+        </div>
+        
+        <div class="grid gap-6">
+            <div class="bg-slate-800 p-6 rounded-2xl">
+                <h3 class="font-bold mb-4">➕ إضافة محاضرة جديدة</h3>
+                <input id="lTitle" placeholder="اسم المحاضرة" class="w-full p-3 rounded bg-slate-700 mb-2 outline-none">
+                <input id="lUrl" placeholder="رابط فيديو يوتيوب" class="w-full p-3 rounded bg-slate-700 mb-2 outline-none">
+                <input id="lYear" placeholder="السنة الدراسية (مثلاً: أولى ثانوي)" class="w-full p-3 rounded bg-slate-700 mb-4 outline-none">
+                <button onclick="addLesson()" class="btn-cyan w-full">نشر المحاضرة</button>
             </div>
 
-            <div id="tab-profile" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-3xl text-center shadow-sm">
-                    <h3 class="font-black text-xl mb-8">⭐ إحصائيات كورساتك</h3>
-                    <div class="space-y-8">
-                        <div>
-                            <div class="stat-circle border-pink-500 text-pink-500">0 %</div>
-                            <p class="mt-2 font-bold text-slate-500">يلا ابدأ!</p>
-                        </div>
-                        <div>
-                            <div class="stat-circle border-cyan-500 text-cyan-500">95 %</div>
-                            <p class="mt-2 font-bold text-slate-500">أشطر واحد ❤️</p>
-                        </div>
-                    </div>
+            <div class="bg-slate-800 p-6 rounded-2xl border-t-4 border-cyan-500">
+                <h3 class="font-bold mb-4">🎫 توليد أكواد شحن</h3>
+                <div class="flex gap-2">
+                    <input id="newCode" placeholder="اكتب الكود هنا" class="flex-1 p-3 rounded bg-slate-700 outline-none">
+                    <button onclick="generateCode()" class="bg-cyan-600 px-6 rounded-xl font-bold">حفظ الكود</button>
                 </div>
+            </div>
+
+            <div class="bg-slate-800 p-6 rounded-2xl">
+                <h3 class="font-bold mb-4">📝 واجبات الطلاب الواصلة</h3>
+                <div id="adminHwList" class="space-y-3 text-sm"></div>
             </div>
         </div>
     </div>
 
-    <div id="modal" class="hidden fixed inset-0 z-[2000] bg-black/90 flex items-center justify-center p-4 backdrop-blur-md">
-        <div class="w-full max-w-2xl bg-white rounded-[30px] overflow-hidden">
-            <div id="videoArea" class="hidden">
-                <div id="player" class="aspect-video bg-black"></div>
-                <div class="p-6 flex justify-between items-center">
-                    <span id="vTitle" class="font-bold"></span>
-                    <button onclick="closeModal()" class="text-red-500 font-bold">إغلاق</button>
-                </div>
-            </div>
-            <div id="hwArea" class="hidden p-8">
-                <h3 class="text-2xl font-black mb-4">تسليم الواجب 📝</h3>
-                <textarea id="hwInput" placeholder="اكتب إجابتك هنا.." class="w-full p-4 border rounded-2xl h-40 mb-4 bg-slate-50 outline-none"></textarea>
-                <button onclick="saveHw()" class="btn-entry">تأكيد التسليم</button>
-                <button onclick="closeModal()" class="w-full mt-2 text-slate-400">إلغاء</button>
-            </div>
+    <div id="rechargeModal" class="hidden fixed inset-0 z-[2000] bg-black/80 flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-[30px] w-full max-w-sm text-center">
+            <h3 class="text-2xl font-black mb-4">شحن رصيد المحاضرات 💳</h3>
+            <p class="text-slate-400 text-sm mb-6">أدخل كود الشحن الذي استلمته من الميس لتفعيل الدروس</p>
+            <input id="rechargeInput" placeholder="أدخل الكود هنا" class="w-full p-4 rounded-2xl border mb-6 text-center font-bold tracking-widest outline-none focus:border-cyan-500">
+            <button onclick="processRecharge()" class="btn-cyan w-full py-4">تفعيل الحساب</button>
+            <button onclick="document.getElementById('rechargeModal').classList.add('hidden')" class="mt-4 text-slate-300">إلغاء</button>
+        </div>
+    </div>
+
+    <div id="videoModal" class="hidden fixed inset-0 z-[2000] bg-black flex items-center justify-center">
+        <div class="w-full max-w-4xl relative">
+            <div id="player" class="aspect-video"></div>
+            <button onclick="closeVideo()" class="absolute -top-12 left-0 text-white font-bold bg-white/20 px-4 py-1 rounded-full">إغلاق ✕</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, onValue, get, child, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, get, child, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = { apiKey: "AIzaSyBRZcq2XFPt500dJ8okpxNZ", databaseURL: "https://tafra-online-default-rtdb.firebaseio.com", projectId: "tafra-online" };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let user = null; let activeLesson = "";
+        let currentUser = null;
 
-        // وظائف الواجهة
-        window.showAuth = () => { document.getElementById('welcomeScreen').classList.add('hidden'); document.getElementById('authScreen').classList.remove('hidden'); };
-        window.openMenu = () => { document.getElementById('sidebar').classList.add('open'); document.getElementById('overlay').style.display = 'block'; };
-        window.closeMenu = () => { document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').style.display = 'none'; };
-        window.openAdmin = () => { if(prompt("كلمة السر:") === "Rtslanme 44") alert("مرحباً ميس ندى"); };
-
-        window.handleLogin = () => {
-            const ph = document.getElementById('stuPhone').value;
-            const ps = document.getElementById('stuPass').value;
-            if(!ph || !ps) return alert("اكمل البيانات");
-            get(child(ref(db), 'users/' + ph)).then(s => {
-                if(s.exists() && s.val().pass === ps) {
-                    localStorage.setItem('tafra_logged', JSON.stringify(s.val()));
+        // --- نظام الدخول ---
+        window.login = () => {
+            const p = document.getElementById('phone').value;
+            const s = document.getElementById('pass').value;
+            get(child(ref(db), 'users/' + p)).then(snap => {
+                if(snap.exists() && snap.val().pass === s) {
+                    localStorage.setItem('tafra_user', JSON.stringify(snap.val()));
                     location.reload();
-                } else alert("رقم الهاتف أو كلمة السر خطأ");
+                } else alert("بيانات خطأ!");
             });
         };
 
-        const check = localStorage.getItem('tafra_logged');
-        if(check) {
-            user = JSON.parse(check);
-            document.getElementById('welcomeScreen').classList.add('hidden');
-            document.getElementById('mainPlatform').classList.remove('hidden');
-            document.getElementById('navName').innerText = user.name;
-            document.getElementById('sideName').innerText = "أهلاً، " + user.name.split(' ')[0];
-            loadData();
+        const saved = localStorage.getItem('tafra_user');
+        if(saved) {
+            currentUser = JSON.parse(saved);
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('studentPanel').classList.remove('hidden');
+            document.getElementById('userName').innerText = currentUser.name;
+            document.getElementById('sideName').innerText = currentUser.name;
+            document.getElementById('userIcon').innerText = currentUser.name[0];
+            document.getElementById('sideIcon').innerText = currentUser.name[0];
+            loadLessons();
         }
 
-        function loadData() {
+        // --- لوحة التحكم (الميس) ---
+        window.openAdmin = () => {
+            if(prompt("كلمة سر الإدارة:") === "Rtslanme 44") {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                loadAdminHw();
+            }
+        };
+
+        window.addLesson = () => {
+            const t = document.getElementById('lTitle').value;
+            const u = document.getElementById('lUrl').value;
+            const y = document.getElementById('lYear').value;
+            if(!t || !u || !y) return alert("اكمل البيانات");
+            push(ref(db, 'lessons'), { title: t, url: u, year: y }).then(() => {
+                alert("تم النشر ✅");
+                document.getElementById('lTitle').value = '';
+            });
+        };
+
+        window.generateCode = () => {
+            const c = document.getElementById('newCode').value;
+            if(!c) return;
+            set(ref(db, 'codes/' + c), { status: "active" }).then(() => {
+                alert("تم حفظ الكود بنجاح 🎫");
+                document.getElementById('newCode').value = '';
+            });
+        };
+
+        function loadAdminHw() {
+            onValue(ref(db, 'homeworks'), s => {
+                const div = document.getElementById('adminHwList'); div.innerHTML = '';
+                s.forEach(c => {
+                    const h = c.val();
+                    div.innerHTML += `<div class="bg-slate-700 p-3 rounded-lg border-r-4 border-cyan-500">
+                        <b>${h.student}</b>: ${h.lesson} <br> <span class="text-slate-400">${h.content}</span>
+                    </div>`;
+                });
+            });
+        }
+
+        // --- نظام الطالب ---
+        function loadLessons() {
             onValue(ref(db, 'lessons'), s => {
-                const cont = document.getElementById('lessonsContainer'); cont.innerHTML = '';
+                const cont = document.getElementById('lessonsList'); cont.innerHTML = '';
                 s.forEach(c => {
                     const l = c.val();
-                    if(l.year === user.year) {
+                    if(l.year === currentUser.year) {
                         cont.innerHTML += `
-                        <div class="lecture-card">
+                        <div class="lecture-card shadow-sm">
                             <div class="lecture-header" onclick="this.nextElementSibling.classList.toggle('hidden')">
-                                <div class="flex items-center gap-3">
-                                    <span class="text-rose-500">🔽</span>
-                                    <span class="font-black">${l.title}</span>
-                                </div>
-                                <span class="text-[10px] bg-white px-2 py-1 rounded-lg border">متاح</span>
+                                <span>🔽 ${l.title}</span>
+                                <span class="text-xs text-slate-400 font-normal italic">ميس ندى كامل</span>
                             </div>
-                            <div class="hidden bg-slate-50 pb-2">
-                                <div class="item-box" onclick="openVid('${l.url}','${l.title}','${l.code}')">
-                                    <span class="font-bold text-sm text-slate-600">جزء الشرح والتدريبات</span>
-                                    <span class="text-cyan-500 text-xs font-black italic">عرض</span>
+                            <div class="hidden">
+                                <div class="sub-item" onclick="openVideo('${l.url}')">
+                                    <span class="text-sm font-bold text-slate-600">📺 فيديو الشرح والتدريبات</span>
+                                    <span class="text-cyan-500 text-xs font-black italic">مشاهدة</span>
                                 </div>
-                                <div class="item-box" onclick="openHw('${l.title}')">
-                                    <span class="font-bold text-sm text-slate-600">تسليم الواجب</span>
-                                    <span class="text-rose-500 text-xs font-black italic">عرض</span>
+                                <div class="sub-item" onclick="submitHw('${l.title}')">
+                                    <span class="text-sm font-bold text-slate-600">📝 تسليم الواجب</span>
+                                    <span class="text-rose-400 text-xs font-black italic">فتح</span>
                                 </div>
                             </div>
                         </div>`;
@@ -193,44 +218,45 @@
             });
         }
 
-        window.openVid = (u, t, c) => {
-            if(prompt("أدخل كود الحصة:") === c) {
-                activeLesson = t;
-                document.getElementById('modal').classList.remove('hidden');
-                document.getElementById('videoArea').classList.remove('hidden');
-                document.getElementById('vTitle').innerText = t;
-                const id = u.split('v=')[1]?.split('&')[0];
-                document.getElementById('player').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
-            } else alert("الكود خطأ!");
+        window.showRecharge = () => { toggleMenu(); document.getElementById('rechargeModal').classList.remove('hidden'); };
+
+        window.processRecharge = () => {
+            const c = document.getElementById('rechargeInput').value;
+            get(child(ref(db), 'codes/' + c)).then(snap => {
+                if(snap.exists() && snap.val().status === "active") {
+                    update(ref(db, 'users/' + currentUser.phone), { isPaid: true });
+                    remove(ref(db, 'codes/' + c));
+                    alert("مبروك! تم تفعيل حسابك بنجاح ✅");
+                    location.reload();
+                } else alert("كود غير صالح أو مستخدم!");
+            });
         };
 
-        window.openHw = (t) => {
-            activeLesson = t;
-            document.getElementById('modal').classList.remove('hidden');
-            document.getElementById('hwArea').classList.remove('hidden');
+        window.openVideo = (u) => {
+            // التحقق إذا كان الطالب شاحن كود (اختياري حسب رغبتك)
+            if(!currentUser.isPaid) return alert("عفواً! يجب شحن كود أولاً لمشاهدة المحاضرات.");
+            
+            document.getElementById('videoModal').classList.remove('hidden');
+            const id = u.split('v=')[1]?.split('&')[0];
+            document.getElementById('player').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${id}?autoplay=1&modestbranding=1" frameborder="0" allowfullscreen></iframe>`;
         };
 
-        window.saveHw = () => {
-            const val = document.getElementById('hwInput').value;
-            if(!val) return;
-            push(ref(db, 'homeworks'), { student: user.name, phone: user.phone, lesson: activeLesson, content: val })
-            .then(() => { alert("تم استلام واجبك يا بطل ✅"); closeModal(); });
+        window.submitHw = (title) => {
+            const ans = prompt("اكتب حلك أو رابط الواجب هنا:");
+            if(!ans) return;
+            push(ref(db, 'homeworks'), { student: currentUser.name, phone: currentUser.phone, lesson: title, content: ans })
+            .then(() => alert("تم استلام واجبك بنجاح ✅"));
         };
 
-        window.switchTab = (t) => {
-            document.getElementById('tab-lessons').classList.toggle('hidden', t !== 'lessons');
-            document.getElementById('tab-profile').classList.toggle('hidden', t !== 'profile');
-            closeMenu();
+        // --- وظائف عامة ---
+        window.toggleMenu = () => {
+            document.getElementById('sidebar').classList.toggle('active');
+            const overlay = document.getElementById('overlay');
+            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
         };
-
-        window.closeModal = () => {
-            document.getElementById('modal').classList.add('hidden');
-            document.getElementById('videoArea').classList.add('hidden');
-            document.getElementById('hwArea').classList.add('hidden');
-            document.getElementById('player').innerHTML = '';
-        };
-
+        window.closeVideo = () => { document.getElementById('videoModal').classList.add('hidden'); document.getElementById('player').innerHTML = ''; };
         window.logout = () => { localStorage.clear(); location.reload(); };
+        window.switchTab = (t) => { toggleMenu(); };
     </script>
 </body>
 </html>
