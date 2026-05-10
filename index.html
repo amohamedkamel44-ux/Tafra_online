@@ -6,25 +6,41 @@
     <title>منصة الطفرة أونلاين</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Cairo', sans-serif; }</style>
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        .lesson-card { transition: all 0.3s ease; }
+        .lesson-card:hover { transform: translateY(-5px); }
+    </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-50">
 
-    <nav class="bg-blue-700 text-white p-4 shadow-lg text-center font-bold text-xl">
-        منصة الطفرة أونلاين - محتوى الكورس 📚
+    <nav class="bg-blue-900 text-white p-4 shadow-xl sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">الطفرة أونلاين ✨</h1>
+            <button onclick="toggleAdmin()" class="text-xs bg-blue-700 px-3 py-1 rounded-lg">دخول المعلم</button>
+        </div>
     </nav>
 
-    <div class="max-w-md mx-auto p-4">
-        <div class="bg-white p-4 rounded-xl shadow-md mb-6 border-2 border-orange-400">
-            <h3 class="font-bold mb-2 text-orange-600">إضافة حصة جديدة (للميس) 🛠️</h3>
-            <input id="vTitle" type="text" placeholder="عنوان الحصة" class="w-full p-2 mb-2 border rounded">
-            <input id="vUrl" type="text" placeholder="لينك اليوتيوب" class="w-full p-2 mb-2 border rounded">
-            <button id="addBtn" class="w-full bg-orange-500 text-white p-2 rounded font-bold">نشر الحصة الآن</button>
+    <div class="max-w-2xl mx-auto p-4">
+        
+        <div id="adminPanel" class="hidden bg-white p-6 rounded-3xl shadow-lg mb-8 border-2 border-orange-400">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-orange-600">إضافة حصة جديدة 🛠️</h3>
+                <button onclick="document.getElementById('adminPanel').classList.add('hidden')" class="text-gray-400">إغلاق</button>
+            </div>
+            <div class="space-y-3">
+                <input id="vTitle" type="text" placeholder="عنوان الحصة" class="w-full p-3 border rounded-xl outline-none focus:border-orange-400">
+                <input id="vUrl" type="text" placeholder="رابط فيديو اليوتيوب" class="w-full p-3 border rounded-xl outline-none focus:border-orange-400">
+                <button id="addBtn" class="w-full bg-orange-500 text-white p-3 rounded-xl font-bold hover:bg-orange-600 transition">نشر الحصة الآن 🚀</button>
+            </div>
         </div>
 
-        <h2 class="font-bold text-lg mb-4 text-gray-700">الحصص المتاحة 👇</h2>
-        <div id="lessonsList" class="space-y-4">
-            <p class="text-center text-gray-500">جاري تحميل المحاضرات...</p>
+        <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-xl font-bold text-gray-800">الحصص المتاحة 📚</h2>
+        </div>
+
+        <div id="lessonsList" class="grid gap-4">
+            <div class="text-center p-10 text-gray-400">جاري تحميل المحاضرات...</div>
         </div>
     </div>
 
@@ -32,7 +48,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // بياناتك من الصورة يا أحمد
+        // بياناتك من Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyBRZcq2XFPt500dJ8okpxNZ",
             authDomain: "tafra-online.firebaseapp.com",
@@ -46,13 +62,30 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // وظيفة إظهار لوحة الأدمن بكلمة سر
+        window.toggleAdmin = () => {
+            const password = prompt("برجاء إدخال كلمة سر الإدارة:");
+            if (password === "tafra2026") { // دي كلمة السر تقدر تغيرها
+                document.getElementById('adminPanel').classList.remove('hidden');
+            } else {
+                alert("عفواً! كلمة السر غير صحيحة.");
+            }
+        };
+
         // إضافة حصة
         document.getElementById('addBtn').onclick = () => {
             const title = document.getElementById('vTitle').value;
             const url = document.getElementById('vUrl').value;
             if(title && url) {
-                push(ref(db, 'lessons'), { title, url });
-                alert("تمت الإضافة!");
+                push(ref(db, 'lessons'), { 
+                    title: title, 
+                    url: url,
+                    time: new Date().toLocaleDateString('ar-EG')
+                }).then(() => {
+                    alert("تم النشر بنجاح!");
+                    document.getElementById('vTitle').value = '';
+                    document.getElementById('vUrl').value = '';
+                });
             }
         };
 
@@ -60,12 +93,21 @@
         onValue(ref(db, 'lessons'), (snapshot) => {
             const list = document.getElementById('lessonsList');
             list.innerHTML = '';
+            if(!snapshot.exists()) {
+                list.innerHTML = '<div class="text-center p-10 text-gray-400">لا توجد حصص بعد.</div>';
+                return;
+            }
             snapshot.forEach((child) => {
                 const data = child.val();
                 list.innerHTML += `
-                    <div class="bg-white p-4 rounded-lg shadow border-r-4 border-blue-600">
-                        <h4 class="font-bold">${data.title}</h4>
-                        <a href="${data.url}" target="_blank" class="text-blue-600 text-sm underline">مشاهدة الفيديو</a>
+                    <div class="lesson-card bg-white p-5 rounded-3xl shadow-sm border border-gray-100 flex justify-between items-center">
+                        <div>
+                            <h4 class="font-bold text-gray-800 text-lg">${data.title}</h4>
+                            <p class="text-gray-400 text-xs mt-1">${data.time}</p>
+                        </div>
+                        <button onclick="window.open('${data.url}', '_blank')" class="bg-blue-600 text-white px-6 py-2 rounded-2xl font-bold">
+                            مشاهدة
+                        </button>
                     </div>
                 `;
             });
