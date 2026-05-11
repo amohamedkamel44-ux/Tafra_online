@@ -1,9 +1,10 @@
+index.html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>الطفرة أونلاين</title>
 
@@ -12,144 +13,168 @@
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      background: #f3f4f6;
+
+    body{
+      font-family:'Cairo',sans-serif;
+      background:#f3f4f6;
     }
 
-    .glass {
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-    }
-
-    .main-bg {
+    .bg-main{
       background:
-        linear-gradient(rgba(0, 0, 0, .5),
-            rgba(0, 0, 0, .5)),
-        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f');
-      background-size: cover;
-      background-position: center;
+      linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+      url('https://images.unsplash.com/photo-1509062522246-3755977927d7');
+      background-size:cover;
+      background-position:center;
     }
 
-    .input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 16px;
-      border: 1px solid #ddd;
-      outline: none;
-      background: #f9fafb;
-      margin-bottom: 12px;
+    .glass{
+      background:rgba(255,255,255,.95);
+      backdrop-filter:blur(10px);
     }
 
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border-radius: 18px;
-      font-weight: bold;
-      transition: .3s;
+    .input{
+      width:100%;
+      padding:14px;
+      border-radius:18px;
+      border:1px solid #ddd;
+      margin-bottom:12px;
+      outline:none;
+      background:#f8fafc;
     }
 
-    .btn:hover {
-      transform: scale(1.02);
+    .btn{
+      width:100%;
+      padding:14px;
+      border-radius:18px;
+      font-weight:bold;
+      transition:.3s;
     }
+
+    .btn:hover{
+      transform:scale(1.02);
+    }
+
   </style>
+
 </head>
 
 <body>
 
-  <div class="min-h-screen flex items-center justify-center p-5 main-bg">
+<div class="min-h-screen flex items-center justify-center p-5 bg-main">
 
-    <div class="glass w-full max-w-md rounded-[35px] shadow-2xl overflow-hidden">
+  <div class="glass w-full max-w-md rounded-[35px] overflow-hidden shadow-2xl">
 
-      <div class="bg-blue-600 p-8 text-center text-white">
+    <div class="bg-cyan-600 text-white p-8 text-center">
 
-        <div class="w-24 h-24 rounded-3xl bg-white mx-auto mb-4 flex items-center justify-center text-5xl shadow-xl">
-          🎓
-        </div>
+      <div class="w-24 h-24 bg-white rounded-3xl mx-auto mb-4 flex items-center justify-center text-5xl shadow-xl">
+        🔬
+      </div>
 
-        <h1 class="text-4xl font-black mb-2">
-          الطفرة أونلاين
-        </h1>
+      <h1 class="text-4xl font-black mb-2">
+        الطفرة أونلاين
+      </h1>
 
-        <p class="opacity-90">
-          منصة تعليمية احترافية
-        </p>
+      <p class="opacity-90">
+        منصة ميس ندى كامل التعليمية
+      </p>
+
+    </div>
+
+    <div class="p-7">
+
+      <div class="flex bg-slate-100 rounded-2xl p-1 mb-6">
+
+        <button id="loginTab"
+        class="flex-1 py-3 rounded-2xl bg-cyan-600 text-white font-bold">
+          تسجيل الدخول
+        </button>
+
+        <button id="registerTab"
+        class="flex-1 py-3 rounded-2xl text-slate-500 font-bold">
+          إنشاء حساب
+        </button>
 
       </div>
 
-      <div class="p-7">
+      <!-- LOGIN -->
 
-        <div class="flex mb-6 bg-slate-100 rounded-2xl p-1">
+      <div id="loginBox">
 
-          <button id="loginTab"
-            class="flex-1 py-3 rounded-2xl bg-blue-600 text-white font-bold">
-            تسجيل الدخول
-          </button>
+        <input
+        type="email"
+        id="loginEmail"
+        placeholder="البريد الإلكتروني"
+        class="input">
 
-          <button id="registerTab"
-            class="flex-1 py-3 rounded-2xl font-bold text-slate-500">
-            إنشاء حساب
-          </button>
+        <input
+        type="password"
+        id="loginPassword"
+        placeholder="كلمة المرور"
+        class="input">
 
-        </div>
+        <button
+        onclick="login()"
+        class="btn bg-cyan-600 text-white">
+          دخول للمنصة
+        </button>
 
-        <!-- LOGIN -->
+        <button
+        onclick="openAdmin()"
+        class="mt-4 w-full text-sm text-slate-400">
+          دخول الإدارة
+        </button>
 
-        <div id="loginBox">
+      </div>
 
-          <input type="email"
-            id="loginEmail"
-            placeholder="البريد الإلكتروني"
-            class="input">
+      <!-- REGISTER -->
 
-          <input type="password"
-            id="loginPassword"
-            placeholder="كلمة المرور"
-            class="input">
+      <div id="registerBox" class="hidden">
 
-          <button onclick="login()"
-            class="btn bg-blue-600 text-white">
-            دخول للمنصة
-          </button>
+        <input
+        type="text"
+        id="registerName"
+        placeholder="اسم الطالب"
+        class="input">
 
-        </div>
+        <input
+        type="email"
+        id="registerEmail"
+        placeholder="البريد الإلكتروني"
+        class="input">
 
-        <!-- REGISTER -->
+        <input
+        type="password"
+        id="registerPassword"
+        placeholder="كلمة المرور"
+        class="input">
 
-        <div id="registerBox" class="hidden">
+        <select
+        id="registerYear"
+        class="input">
 
-          <input type="text"
-            id="registerName"
-            placeholder="اسم الطالب"
-            class="input">
+          <option value="">
+            اختر السنة الدراسية
+          </option>
 
-          <input type="email"
-            id="registerEmail"
-            placeholder="البريد الإلكتروني"
-            class="input">
+          <option>
+            أولى ثانوي
+          </option>
 
-          <input type="password"
-            id="registerPassword"
-            placeholder="كلمة المرور"
-            class="input">
+          <option>
+            ثانية ثانوي
+          </option>
 
-          <select id="registerYear"
-            class="input">
+          <option>
+            ثالثة ثانوي
+          </option>
 
-            <option value="">اختر السنة الدراسية</option>
+        </select>
 
-            <option>أولى ثانوي</option>
-            <option>ثانية ثانوي</option>
-            <option>ثالثة ثانوي</option>
-
-          </select>
-
-          <button onclick="register()"
-            class="btn bg-green-600 text-white">
-            إنشاء الحساب
-          </button>
-
-        </div>
+        <button
+        onclick="register()"
+        class="btn bg-green-600 text-white">
+          إنشاء الحساب
+        </button>
 
       </div>
 
@@ -157,179 +182,718 @@
 
   </div>
 
-  <script type="module">
+</div>
 
-    import { initializeApp }
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+<script type="module">
 
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      createUserWithEmailAndPassword
-    }
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeApp }
 
-    import {
-      getDatabase,
-      ref,
-      set
-    }
-      from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
-    const firebaseConfig = {
+import {
 
-      apiKey: "حط API KEY",
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword
 
-      authDomain: "حط AUTH DOMAIN",
+}
 
-      databaseURL: "حط DATABASE URL",
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-      projectId: "حط PROJECT ID",
+import {
 
-      storageBucket: "حط STORAGE",
+getDatabase,
+ref,
+set,
+get,
+child
 
-      messagingSenderId: "حط ID",
+}
 
-      appId: "حط APP ID"
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    };
+const firebaseConfig = {
 
-    const app = initializeApp(firebaseConfig);
+apiKey: "حط API KEY",
 
-    const auth = getAuth(app);
+authDomain: "حط AUTH DOMAIN",
 
-    const db = getDatabase(app);
+databaseURL: "حط DATABASE URL",
 
-    // SWITCH
+projectId: "حط PROJECT ID",
 
-    const loginTab =
-      document.getElementById("loginTab");
+storageBucket: "حط STORAGE BUCKET",
 
-    const registerTab =
-      document.getElementById("registerTab");
+messagingSenderId: "حط SENDER ID",
 
-    const loginBox =
-      document.getElementById("loginBox");
+appId: "حط APP ID"
 
-    const registerBox =
-      document.getElementById("registerBox");
+};
 
-    loginTab.onclick = () => {
+const app = initializeApp(firebaseConfig);
 
-      loginBox.classList.remove("hidden");
+const auth = getAuth(app);
 
-      registerBox.classList.add("hidden");
+const db = getDatabase(app);
 
-      loginTab.classList.add("bg-blue-600", "text-white");
 
-      registerTab.classList.remove("bg-green-600", "text-white");
+// SWITCH
 
-    };
+const loginTab =
+document.getElementById("loginTab");
 
-    registerTab.onclick = () => {
+const registerTab =
+document.getElementById("registerTab");
 
-      registerBox.classList.remove("hidden");
+const loginBox =
+document.getElementById("loginBox");
 
-      loginBox.classList.add("hidden");
+const registerBox =
+document.getElementById("registerBox");
 
-      registerTab.classList.add("bg-green-600", "text-white");
+loginTab.addEventListener("click",()=>{
 
-    };
+loginBox.classList.remove("hidden");
 
-    // REGISTER
+registerBox.classList.add("hidden");
 
-    window.register = async () => {
+loginTab.classList.add(
+"bg-cyan-600",
+"text-white"
+);
 
-      const name =
-        document.getElementById("registerName").value;
+registerTab.classList.remove(
+"bg-green-600",
+"text-white"
+);
 
-      const email =
-        document.getElementById("registerEmail").value;
+});
 
-      const password =
-        document.getElementById("registerPassword").value;
+registerTab.addEventListener("click",()=>{
 
-      const year =
-        document.getElementById("registerYear").value;
+registerBox.classList.remove("hidden");
 
-      if (!name || !email || !password || !year) {
+loginBox.classList.add("hidden");
 
-        alert("اكمل البيانات");
+registerTab.classList.add(
+"bg-green-600",
+"text-white"
+);
 
-        return;
-      }
+loginTab.classList.remove(
+"bg-cyan-600",
+"text-white"
+);
 
-      try {
+});
 
-        const userCredential =
-          await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
 
-        const user = userCredential.user;
+// REGISTER
 
-        await set(ref(db, "users/" + user.uid), {
+window.register = async()=>{
 
-          name: name,
+const name =
+document.getElementById("registerName").value;
 
-          email: email,
+const email =
+document.getElementById("registerEmail").value;
 
-          year: year,
+const password =
+document.getElementById("registerPassword").value;
 
-          isPaid: false,
+const year =
+document.getElementById("registerYear").value;
 
-          createdAt: Date.now()
+if(!name || !email || !password || !year){
 
-        });
+alert("اكمل البيانات");
 
-        alert("تم إنشاء الحساب بنجاح ✅");
+return;
 
-      }
+}
 
-      catch (error) {
+try{
 
-        alert(error.message);
+const userCredential =
 
-      }
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-    };
+const user = userCredential.user;
 
-    // LOGIN
+await set(ref(db,"users/"+user.uid),{
 
-    window.login = async () => {
+name:name,
 
-      const email =
-        document.getElementById("loginEmail").value;
+email:email,
 
-      const password =
-        document.getElementById("loginPassword").value;
+year:year,
 
-      try {
+isPaid:false,
 
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+blocked:false,
 
-        alert("تم تسجيل الدخول ✅");
+role:"student",
 
-        window.location.href = "student.html";
+createdAt:Date.now()
 
-      }
+});
 
-      catch (error) {
+alert("تم إنشاء الحساب ✅");
 
-        alert("بيانات غير صحيحة");
+}
 
-      }
+catch(error){
 
-    };
+alert(error.message);
 
-  </script>
+}
+
+};
+
+
+// LOGIN
+
+window.login = async()=>{
+
+const email =
+document.getElementById("loginEmail").value;
+
+const password =
+document.getElementById("loginPassword").value;
+
+try{
+
+const userCredential =
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+const user = userCredential.user;
+
+const snapshot =
+
+await get(child(ref(db),"users/"+user.uid));
+
+const data = snapshot.val();
+
+if(data.blocked){
+
+alert("تم حظر حسابك");
+
+return;
+
+}
+
+localStorage.setItem(
+"tafraUser",
+JSON.stringify({
+uid:user.uid,
+...data
+})
+);
+
+if(data.role === "admin"){
+
+window.location.href =
+"admin.html";
+
+}
+
+else{
+
+window.location.href =
+"student.html";
+
+}
+
+}
+
+catch(error){
+
+alert("بيانات غير صحيحة");
+
+}
+
+};
+
+
+// ADMIN
+
+window.openAdmin = ()=>{
+
+const password = prompt("كلمة سر الإدارة");
+
+if(password === "tafra2026"){
+
+localStorage.setItem(
+"adminAccess",
+"true"
+);
+
+window.location.href =
+"admin.html";
+
+}
+
+};
+
+</script>
 
 </body>
+</html>
+student.html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
+<head>
+
+<meta charset="UTF-8"/>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0"/>
+
+<title>
+الطفرة أونلاين
+</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Cairo',sans-serif;
+background:#f1f5f9;
+}
+
+.card{
+background:white;
+border-radius:24px;
+padding:18px;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+margin-bottom:18px;
+}
+
+.btn{
+padding:12px 18px;
+border-radius:14px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="bg-white p-4 shadow-sm flex justify-between items-center sticky top-0 z-50">
+
+<div>
+
+<h1 class="font-black text-cyan-600 text-2xl">
+الطفرة أونلاين
+</h1>
+
+<p id="studentName"
+class="text-slate-400 text-sm">
+...
+</p>
+
+</div>
+
+<div class="flex gap-2">
+
+<button
+onclick="showRecharge()"
+class="btn bg-yellow-400">
+💳 شحن
+</button>
+
+<button
+onclick="logout()"
+class="btn bg-red-500 text-white">
+خروج
+</button>
+
+</div>
+
+</nav>
+
+<div class="max-w-3xl mx-auto p-5">
+
+<div class="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-[30px] text-white p-8 mb-6 shadow-xl">
+
+<h2 class="text-3xl font-black mb-2">
+
+أهلاً بك 👋
+
+</h2>
+
+<p>
+
+تابع محاضراتك وامتحاناتك بسهولة
+
+</p>
+
+</div>
+
+<div id="lessonsContainer">
+
+</div>
+
+</div>
+
+<!-- VIDEO -->
+
+<div id="videoModal"
+class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-5">
+
+<div class="w-full max-w-5xl relative">
+
+<button
+onclick="closeVideo()"
+class="absolute -top-12 left-0 text-white bg-red-500 px-4 py-2 rounded-xl">
+
+إغلاق ✕
+
+</button>
+
+<div id="videoPlayer"
+class="aspect-video rounded-2xl overflow-hidden">
+</div>
+
+</div>
+
+</div>
+
+<!-- RECHARGE -->
+
+<div id="rechargeModal"
+class="hidden fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-5">
+
+<div class="bg-white rounded-[30px] p-8 w-full max-w-md">
+
+<h2 class="text-2xl font-black mb-4">
+شحن كود 🎫
+</h2>
+
+<input
+id="codeInput"
+placeholder="اكتب الكود"
+class="w-full p-4 rounded-2xl border mb-4 outline-none">
+
+<button
+onclick="recharge()"
+class="btn bg-cyan-600 text-white w-full">
+
+تفعيل الكود
+
+</button>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+import {
+
+getDatabase,
+ref,
+onValue,
+push,
+get,
+child,
+remove,
+update
+
+}
+
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+
+apiKey:"حط API KEY",
+
+authDomain:"حط AUTH DOMAIN",
+
+databaseURL:"حط DATABASE URL",
+
+projectId:"حط PROJECT ID",
+
+storageBucket:"حط STORAGE",
+
+messagingSenderId:"حط SENDER ID",
+
+appId:"حط APP ID"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+const user =
+JSON.parse(localStorage.getItem("tafraUser"));
+
+if(!user){
+
+location.href = "index.html";
+
+}
+
+document.getElementById(
+"studentName"
+).innerText =
+user.name + " - " + user.year;
+
+
+// CHECK BLOCK
+
+get(child(ref(db),"users/"+user.uid))
+
+.then(snapshot=>{
+
+const data = snapshot.val();
+
+if(data.blocked){
+
+alert("تم حظر حسابك");
+
+localStorage.clear();
+
+location.href = "index.html";
+
+}
+
+});
+
+
+// LOAD LESSONS
+
+onValue(ref(db,"lessons"),snapshot=>{
+
+const container =
+document.getElementById("lessonsContainer");
+
+container.innerHTML = "";
+
+snapshot.forEach(childSnap=>{
+
+const lesson = childSnap.val();
+
+if(lesson.year === user.year){
+
+container.innerHTML += `
+
+<div class="card">
+
+<div class="flex justify-between items-center mb-4">
+
+<div>
+
+<h2 class="font-black text-xl">
+
+${lesson.title}
+
+</h2>
+
+<p class="text-slate-400 text-sm">
+
+${lesson.year}
+
+</p>
+
+</div>
+
+<span class="bg-cyan-100 text-cyan-600 px-3 py-1 rounded-full text-sm">
+
+محاضرة
+
+</span>
+
+</div>
+
+<div class="flex gap-3 flex-wrap">
+
+<button
+onclick="openVideo('${lesson.url}')"
+class="btn bg-cyan-600 text-white">
+
+📺 مشاهدة
+
+</button>
+
+<button
+onclick="sendHomework('${lesson.title}')"
+class="btn bg-yellow-400">
+
+📝 الواجب
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+});
+
+
+// VIDEO
+
+window.openVideo = (url)=>{
+
+if(!user.isPaid){
+
+alert("يجب شحن كود أولاً");
+
+return;
+
+}
+
+const id =
+url.split("v=")[1]?.split("&")[0];
+
+document.getElementById(
+"videoModal"
+).classList.remove("hidden");
+
+document.getElementById(
+"videoPlayer"
+).innerHTML = `
+
+<iframe
+width="100%"
+height="100%"
+src="https://www.youtube.com/embed/${id}?autoplay=1"
+frameborder="0"
+allowfullscreen>
+</iframe>
+
+`;
+
+};
+
+window.closeVideo = ()=>{
+
+document.getElementById(
+"videoModal"
+).classList.add("hidden");
+
+document.getElementById(
+"videoPlayer"
+).innerHTML = "";
+
+};
+
+
+// HOMEWORK
+
+window.sendHomework = (lesson)=>{
+
+const answer =
+prompt("اكتب الواجب أو اللينك");
+
+if(!answer) return;
+
+push(ref(db,"homeworks"),{
+
+student:user.name,
+
+lesson:lesson,
+
+answer:answer,
+
+uid:user.uid,
+
+createdAt:Date.now()
+
+})
+
+.then(()=>{
+
+alert("تم إرسال الواجب ✅");
+
+});
+
+};
+
+
+// RECHARGE
+
+window.showRecharge = ()=>{
+
+document.getElementById(
+"rechargeModal"
+).classList.remove("hidden");
+
+};
+
+window.recharge = ()=>{
+
+const code =
+document.getElementById("codeInput").value;
+
+get(child(ref(db),"codes/"+code))
+
+.then(snapshot=>{
+
+if(snapshot.exists()){
+
+update(ref(db,"users/"+user.uid),{
+
+isPaid:true
+
+});
+
+remove(ref(db,"codes/"+code));
+
+alert("تم التفعيل ✅");
+
+location.reload();
+
+}
+
+else{
+
+alert("كود غير صحيح");
+
+}
+
+});
+
+};
+
+
+// LOGOUT
+
+window.logout = ()=>{
+
+localStorage.clear();
+
+location.href = "index.html";
+
+};
+
+</script>
+
+</body>
 </html>
