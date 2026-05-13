@@ -4,266 +4,224 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الطفرة أونلاين | ميس ندى كامل</title>
-    
-    <meta name="description" content="انضم لأقوى منصة تعليمية في العلوم مع ميس ندى كامل. شرح مبسط، امتحانات تفاعلية، ومتابعة دورية.">
-    <meta name="keywords" content="منصة الطفرة، ميس ندى كامل، علوم ثانوي، فيزياء، سنتر، دروس اونلاين">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    
     <style>
-        :root { --main: #00bcd4; --dark: #00838f; --rose: #ff4081; --bg: #f4f7f6; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); color: #2d3436; }
-
-        /* تجميل البطاقات زي المنصات الكبرى */
-        .lecture-card { background: white; border-radius: 25px; border: 1px solid #eef2f3; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .lecture-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); border-color: var(--main); }
-        
-        /* العلامة المائية للحماية */
-        #watermark { position: fixed; top: 20%; left: 10%; color: rgba(0,0,0,0.05); font-size: 2vw; pointer-events: none; z-index: 9999; transform: rotate(-30deg); display: none; }
-
-        /* شريط الأخبار العاجلة */
-        .news-ticker { background: white; border-bottom: 1px solid #eee; overflow: hidden; white-space: nowrap; padding: 10px 0; }
-        .news-content { display: inline-block; animation: ticker 20s linear infinite; font-weight: bold; color: var(--dark); }
-        @keyframes ticker { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
-        .btn-premium { background: linear-gradient(135deg, var(--main), var(--dark)); color: white; border-radius: 18px; font-weight: 900; transition: 0.3s; box-shadow: 0 8px 15px rgba(0, 188, 212, 0.2); }
-        .btn-premium:hover { filter: brightness(1.1); transform: scale(1.02); }
-
-        .sidebar-overlay { background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
-        .hidden { display: none; }
+        :root { --main: #00bcd4; --bg: #f8fafc; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #333; }
+        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
+        .btn-main { background: linear-gradient(90deg, #00bcd4, #00acc1); color: white; transition: 0.3s; }
+        .hidden { display: none !important; }
+        .admin-table th { background: #f1f5f9; padding: 12px; text-align: right; border-bottom: 2px solid #e2e8f0; }
+        .admin-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
     </style>
 </head>
 <body>
 
-    <div id="watermark"></div>
-
-    <div class="news-ticker">
-        <div class="news-content">✨ أهلاً بك في منصة الطفرة.. تم إضافة حصة جديدة للصف الأول الثانوي.. لا تنسوا موعد الامتحان الأسبوعي ✨</div>
-    </div>
-
-    <div id="authArea" class="min-h-screen flex items-center justify-center p-4">
-        <div class="w-full max-w-md bg-white p-10 rounded-[40px] shadow-2xl animate__animated animate__zoomIn">
-            <div class="text-center mb-10">
-                <div class="w-20 h-20 bg-cyan-500 rounded-[25px] mx-auto mb-4 flex items-center justify-center text-white text-4xl shadow-lg">🔬</div>
-                <h1 class="text-3xl font-black text-slate-800">منصة الطفرة</h1>
-                <p class="text-slate-400 font-bold">بوابتك للتميز مع ميس ندى كامل</p>
-            </div>
-            
-            <div id="loginForm" class="space-y-4">
-                <input id="p-phone" type="tel" placeholder="رقم الموبايل" class="w-full p-4 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-200 outline-none focus:ring-2 focus:ring-cyan-500 transition-all">
-                <input id="p-pass" type="password" placeholder="كلمة المرور" class="w-full p-4 rounded-2xl bg-slate-50 border-none ring-1 ring-slate-200 outline-none focus:ring-2 focus:ring-cyan-500 transition-all">
-                <button onclick="doLogin()" class="btn-premium w-full py-5 text-lg">دخول للمنصة</button>
-                <div class="text-center mt-6">
-                    <button onclick="showReg()" class="text-cyan-600 font-black">إنشاء حساب جديد 🎓</button>
-                </div>
+    <div id="authPage" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-lg glass p-8 rounded-[35px] shadow-2xl">
+            <div id="loginForm" class="text-center">
+                <div class="w-20 h-20 btn-main rounded-2xl mx-auto mb-6 flex items-center justify-center text-3xl shadow-lg">🔬</div>
+                <h2 class="text-3xl font-black mb-6">تسجيل الدخول</h2>
+                <input id="l-phone" type="tel" placeholder="رقم الموبايل" class="w-full p-4 rounded-2xl border mb-4 outline-none focus:ring-2 ring-cyan-400">
+                <input id="l-pass" type="password" placeholder="كلمة المرور" class="w-full p-4 rounded-2xl border mb-6 outline-none focus:ring-2 ring-cyan-400">
+                <button onclick="login()" class="btn-main w-full py-4 rounded-2xl font-black text-lg">دخول</button>
+                <p class="mt-6">ليس لديك حساب؟ <span onclick="showForm('reg')" class="text-cyan-600 font-bold cursor-pointer underline">أنشئ حسابك</span></p>
+                <p onclick="openAdmin()" class="mt-10 text-slate-300 text-xs cursor-pointer">لوحة التحكم</p>
             </div>
 
-            <div id="regForm" class="hidden space-y-4">
-                <input id="r-name" type="text" placeholder="الاسم ثلاثي" class="w-full p-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 outline-none">
-                <input id="r-phone" type="tel" placeholder="رقم الهاتف" class="w-full p-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 outline-none">
-                <select id="r-year" class="w-full p-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 outline-none">
-                    <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
-                </select>
-                <input id="r-pass" type="password" placeholder="كلمة سر قوية" class="w-full p-4 rounded-2xl bg-slate-50 ring-1 ring-slate-200 outline-none">
-                <button onclick="doReg()" class="btn-premium w-full py-5">تأكيد التسجيل</button>
-                <button onclick="showLogin()" class="w-full text-slate-400 font-bold mt-4">رجوع للظلف</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="appArea" class="hidden min-h-screen">
-        <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-sm">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-cyan-500 text-white flex items-center justify-center font-black shadow-md" id="avatar"></div>
-                <div>
-                    <div id="userName" class="font-black text-slate-800 text-sm"></div>
-                    <div class="text-[10px] text-green-500 font-black">متصل الآن • <span id="statusText"></span></div>
-                </div>
-            </div>
-            <button onclick="logout()" class="text-slate-300 hover:text-red-500 transition">خروج</button>
-        </nav>
-
-        <main class="p-6 max-w-xl mx-auto space-y-6">
-            <div class="bg-gradient-to-r from-cyan-500 to-blue-600 p-6 rounded-[30px] text-white shadow-xl relative overflow-hidden">
-                <h3 class="text-xl font-black mb-2 italic">مرحباً بك في رحلة العلم!</h3>
-                <p class="text-cyan-100 text-sm">أنت الآن تشاهد محتوى مخصص لـ <span id="userYear" class="underline"></span></p>
-                <div class="absolute -right-4 -bottom-4 opacity-20 text-8xl">🔬</div>
-            </div>
-
-            <div id="lessonsWall" class="space-y-4">
-                </div>
-        </main>
-    </div>
-
-    <div id="adminArea" class="hidden min-h-screen bg-slate-50 p-6">
-        <div class="max-w-4xl mx-auto">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-black text-slate-800">لوحة الإدارة 👑</h2>
-                <button onclick="location.reload()" class="bg-white px-6 py-2 rounded-xl shadow-sm font-bold text-red-500">خروج</button>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="bg-white p-8 rounded-[35px] shadow-sm border border-slate-100">
-                    <h4 class="font-black mb-6 flex items-center gap-2 text-cyan-600"><span>🎬</span> رفع حصة جديدة</h4>
-                    <input id="adm-t" placeholder="عنوان الدرس" class="w-full p-4 rounded-2xl bg-slate-50 mb-3 outline-none focus:ring-2 ring-cyan-500">
-                    <input id="adm-u" placeholder="رابط فيديو (يوتيوب)" class="w-full p-4 rounded-2xl bg-slate-50 mb-3 outline-none focus:ring-2 ring-cyan-500">
-                    <select id="adm-y" class="w-full p-4 rounded-2xl bg-slate-50 mb-6 outline-none">
-                        <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
+            <div id="regForm" class="hidden">
+                <h2 class="text-2xl font-black mb-6 text-center">إنشاء حساب طالب جديد 🎓</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-right">
+                    <input id="r-name" type="text" placeholder="الاسم بالكامل" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400">
+                    <input id="r-phone" type="tel" placeholder="رقم هاتفك" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400">
+                    <input id="r-parent" type="tel" placeholder="رقم ولي الأمر" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400">
+                    <input id="r-school" type="text" placeholder="اسم مدرستك" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400">
+                    <select id="r-year" class="p-4 rounded-xl border outline-none font-bold col-span-1 md:col-span-2">
+                        <option value="">اختر سنتك الدراسية</option>
+                        <optgroup label="المرحلة الإعدادية">
+                            <option>أولى إعدادي</option><option>ثانية إعدادي</option><option>ثالثة إعدادي</option>
+                        </optgroup>
+                        <optgroup label="المرحلة الثانوية">
+                            <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
+                        </optgroup>
                     </select>
-                    <button onclick="pushLesson()" class="btn-premium w-full py-4">نشر الحصة للطلاب</button>
+                    <input id="r-pass" type="password" placeholder="كلمة المرور" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400 col-span-1 md:col-span-2">
                 </div>
-
-                <div class="bg-white p-8 rounded-[35px] shadow-sm border border-slate-100">
-                    <h4 class="font-black mb-6 flex items-center gap-2 text-rose-500"><span>🎫</span> الأكواد المتاحة</h4>
-                    <div class="flex gap-2 mb-6">
-                        <input id="adm-c" placeholder="اكتب كود جديد" class="flex-1 p-4 rounded-2xl bg-slate-50 outline-none">
-                        <button onclick="pushCode()" class="bg-slate-800 text-white px-6 rounded-2xl font-bold">حفظ</button>
-                    </div>
-                    <div class="h-48 overflow-y-auto space-y-2 text-xs" id="hw-list">
-                        </div>
-                </div>
+                <button onclick="register()" class="btn-main w-full py-4 rounded-2xl font-black mt-6">تأكيد التسجيل</button>
+                <p class="mt-4 text-center" onclick="showForm('login')">لديك حساب؟ <span class="text-cyan-600 font-bold cursor-pointer">سجل دخول</span></p>
             </div>
         </div>
     </div>
 
-    <div id="playerModal" class="hidden fixed inset-0 z-[9999] bg-black flex items-center justify-center p-2">
-        <div class="w-full max-w-5xl relative">
-            <div id="videoContainer" class="aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl border-4 border-white/5"></div>
-            <button onclick="closePlayer()" class="absolute -top-14 left-0 text-white bg-white/10 px-8 py-2 rounded-full font-black">إغلاق الحصة ✕</button>
+    <div id="studentPage" class="hidden min-h-screen">
+        <nav class="glass sticky top-0 px-6 py-4 flex justify-between items-center z-50 shadow-sm">
+            <div class="flex items-center gap-3">
+                <div id="u-icon" class="w-10 h-10 rounded-full btn-main flex items-center justify-center font-bold"></div>
+                <span id="u-name" class="font-black text-sm"></span>
+            </div>
+            <div class="font-black text-xl text-cyan-500 italic">TAFRA</div>
+        </nav>
+        <div id="studentContent" class="max-w-2xl mx-auto p-4">
+            </div>
+    </div>
+
+    <div id="adminPage" class="hidden min-h-screen bg-white">
+        <div class="bg-slate-900 text-white p-6 flex justify-between items-center">
+            <h1 class="text-xl font-black">لوحة تحكم الإدارة 👑</h1>
+            <button onclick="location.reload()" class="bg-red-500 px-4 py-2 rounded-lg text-sm">خروج</button>
+        </div>
+
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="p-6 bg-cyan-50 border border-cyan-100 rounded-3xl">
+                    <h3 class="text-slate-500 text-sm mb-1">إجمالي الطلاب</h3>
+                    <p id="stat-students" class="text-3xl font-black text-cyan-600">0</p>
+                </div>
+                <div class="p-6 bg-rose-50 border border-rose-100 rounded-3xl">
+                    <h3 class="text-slate-500 text-sm mb-1">الطلاب المحظورين</h3>
+                    <p id="stat-banned" class="text-3xl font-black text-rose-600">0</p>
+                </div>
+                <div class="p-6 bg-amber-50 border border-amber-100 rounded-3xl">
+                    <h3 class="text-slate-500 text-sm mb-1">إجمالي الحصص</h3>
+                    <p id="stat-lessons" class="text-3xl font-black text-amber-600">0</p>
+                </div>
+            </div>
+
+            <div class="bg-white border rounded-3xl overflow-hidden shadow-sm">
+                <div class="p-6 border-b font-black text-lg">قائمة الطلاب والتحكم في الحظر</div>
+                <div class="overflow-x-auto">
+                    <table class="w-full admin-table text-sm">
+                        <thead>
+                            <tr>
+                                <th>الاسم</th>
+                                <th>رقم الطالب</th>
+                                <th>ولي الأمر</th>
+                                <th>السنة الدراسية</th>
+                                <th>المدرسة</th>
+                                <th>الحالة</th>
+                                <th>الإجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsList"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, push, onValue, get, child, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, push, onValue, get, child, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = { apiKey: "AIzaSyBRZcq2XFPt500dJ8okpxNZ", databaseURL: "https://tafra-online-default-rtdb.firebaseio.com", projectId: "tafra-online" };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let user = null;
-
-        // --- نظام الحماية والتشغيل ---
-        window.doLogin = () => {
-            const p = document.getElementById('p-phone').value;
-            const ps = document.getElementById('p-pass');
-            if(p === "01127266185" && ps.value === "Rtslanme 44") {
-                showAdmin(); return;
-            }
-            get(child(ref(db), 'users/' + p)).then(s => {
-                if(s.exists() && s.val().pass === ps.value) {
-                    localStorage.setItem('tafra_session', JSON.stringify(s.val()));
-                    location.reload();
-                } else alert("بيانات غير صحيحة يا بطل!");
-            });
-        };
-
-        const session = localStorage.getItem('tafra_session');
-        if(session) {
-            user = JSON.parse(session);
-            document.getElementById('authArea').classList.add('hidden');
-            document.getElementById('appArea').classList.remove('hidden');
-            document.getElementById('userName').innerText = user.name;
-            document.getElementById('userYear').innerText = user.year;
-            document.getElementById('avatar').innerText = user.name[0];
-            document.getElementById('statusText').innerText = user.isPaid ? "حسابك مفعل" : "بانتظار تفعيل الكود";
-            
-            // تفعيل العلامة المائية باسم الطالب
-            const wm = document.getElementById('watermark');
-            wm.innerText = `${user.name} - ${user.phone}`;
-            wm.style.display = "block";
-            
-            loadLessons();
+        // --- وظائف الواجهة ---
+        window.showForm = (f) => {
+            document.getElementById('loginForm').classList.toggle('hidden', f === 'reg');
+            document.getElementById('regForm').classList.toggle('hidden', f === 'login');
         }
 
-        // --- وظائف الميس ---
-        function showAdmin() {
-            document.getElementById('authArea').classList.add('hidden');
-            document.getElementById('adminArea').classList.remove('hidden');
-            loadHw();
-        }
+        // --- نظام الطلاب ---
+        window.register = () => {
+            const data = {
+                name: document.getElementById('r-name').value,
+                phone: document.getElementById('r-phone').value,
+                parent: document.getElementById('r-parent').value,
+                school: document.getElementById('r-school').value,
+                year: document.getElementById('r-year').value,
+                pass: document.getElementById('r-pass').value,
+                isBanned: false,
+                isPaid: false
+            };
 
-        window.pushLesson = () => {
-            const t = document.getElementById('adm-t').value;
-            const u = document.getElementById('adm-u').value;
-            const y = document.getElementById('adm-y').value;
-            if(!t || !u) return;
-            push(ref(db, 'lessons'), { title: t, url: u, year: y }).then(() => {
-                alert("تم النشر بنجاح ✅");
-                document.getElementById('adm-t').value = '';
-            });
-        };
+            if(!data.name || !data.phone || !data.pass) return alert("اكمل البيانات الأساسية!");
 
-        window.pushCode = () => {
-            const c = document.getElementById('adm-c').value;
-            set(ref(db, 'codes/' + c), { active: true }).then(() => alert("تم حفظ الكود " + c));
-        };
-
-        // --- وظائف الطالب ---
-        function loadLessons() {
-            onValue(ref(db, 'lessons'), s => {
-                const wall = document.getElementById('lessonsWall'); wall.innerHTML = '';
-                s.forEach(c => {
-                    const l = c.val();
-                    if(l.year === user.year) {
-                        wall.innerHTML += `
-                        <div class="lecture-card p-6 animate__animated animate__fadeInUp">
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="bg-cyan-50 text-cyan-600 px-4 py-1 rounded-full text-xs font-black">حصة متاحة</span>
-                                <span class="text-slate-300 text-xs font-bold italic">ميس ندى كامل</span>
-                            </div>
-                            <h4 class="font-black text-xl text-slate-800 mb-6">${l.title}</h4>
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="playVid('${l.url}')" class="bg-slate-900 text-white py-3 rounded-2xl font-bold text-sm">📺 مشاهدة</button>
-                                <button onclick="sendHw('${l.title}')" class="bg-slate-100 text-slate-600 py-3 rounded-2xl font-bold text-sm">📝 الواجب</button>
-                            </div>
-                        </div>`;
-                    }
-                });
+            set(ref(db, 'users/' + data.phone), data).then(() => {
+                alert("تم تسجيل حسابك بنجاح! سجل دخول الآن.");
+                showForm('login');
             });
         }
 
-        window.playVid = (u) => {
-            if(!user.isPaid) {
-                const c = prompt("هذه المحاضرة تحتاج كود تفعيل، أدخل الكود:");
-                get(child(ref(db), 'codes/' + c)).then(snap => {
-                    if(snap.exists()) {
-                        update(ref(db, 'users/' + user.phone), { isPaid: true });
-                        remove(ref(db, 'codes/' + c));
-                        alert("تم تفعيل حسابك! اضغط مشاهدة مرة أخرى.");
+        window.login = () => {
+            const p = document.getElementById('l-phone').value;
+            const s = document.getElementById('l-pass').value;
+
+            get(child(ref(db), 'users/' + p)).then(snap => {
+                if(snap.exists()){
+                    const u = snap.val();
+                    if(u.isBanned) return alert("عفواً، تم حظر حسابك.. تواصل مع الإدارة.");
+                    if(u.pass === s) {
+                        localStorage.setItem('tafra_user', JSON.stringify(u));
                         location.reload();
-                    } else alert("كود غير صحيح!");
-                });
-                return;
-            }
-            document.getElementById('playerModal').classList.remove('hidden');
-            const id = u.split('v=')[1]?.split('&')[0];
-            document.getElementById('videoContainer').innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/${id}?autoplay=1&modestbranding=1&rel=0" frameborder="0" allowfullscreen></iframe>`;
-        };
-
-        window.sendHw = (title) => {
-            const h = prompt("اكتب حلك هنا ميس ندى ستراجعه فوراً:");
-            if(h) push(ref(db, 'homeworks'), { student: user.name, lesson: title, content: h }).then(() => alert("عاش يا بطل! تم استلام الواجب ✅"));
-        };
-
-        // --- تحسينات عامة ---
-        window.showReg = () => { document.getElementById('loginForm').classList.add('hidden'); document.getElementById('regForm').classList.remove('hidden'); };
-        window.showLogin = () => { document.getElementById('regForm').classList.add('hidden'); document.getElementById('loginForm').classList.remove('hidden'); };
-        window.closePlayer = () => { document.getElementById('playerModal').classList.add('hidden'); document.getElementById('videoContainer').innerHTML = ''; };
-        window.logout = () => { localStorage.clear(); location.reload(); };
-        
-        function loadHw() {
-            onValue(ref(db, 'homeworks'), s => {
-                const list = document.getElementById('hw-list'); list.innerHTML = '';
-                s.forEach(c => {
-                    const h = c.val();
-                    list.innerHTML += `<div class="p-3 bg-slate-50 rounded-xl border-r-4 border-cyan-500"><b>${h.student}:</b> ${h.content}</div>`;
-                });
+                    } else alert("كلمة المرور خطأ!");
+                } else alert("الحساب غير موجود!");
             });
+        }
+
+        // --- نظام الإدارة (Admin) ---
+        window.openAdmin = () => {
+            if(prompt("كلمة سر الميس:") === "Rtslanme 44") {
+                document.getElementById('authPage').classList.add('hidden');
+                document.getElementById('adminPage').classList.remove('hidden');
+                loadAdminData();
+            }
+        }
+
+        function loadAdminData() {
+            onValue(ref(db, 'users'), snap => {
+                const list = document.getElementById('studentsList');
+                list.innerHTML = '';
+                let count = 0, banned = 0;
+
+                snap.forEach(childSnap => {
+                    const u = childSnap.val();
+                    count++;
+                    if(u.isBanned) banned++;
+
+                    list.innerHTML += `
+                        <tr>
+                            <td class="font-bold">${u.name}</td>
+                            <td>${u.phone}</td>
+                            <td>${u.parent || '---'}</td>
+                            <td>${u.year}</td>
+                            <td>${u.school || '---'}</td>
+                            <td>
+                                <span class="${u.isBanned ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'} px-2 py-1 rounded text-xs">
+                                    ${u.isBanned ? 'محظور' : 'نشط'}
+                                </span>
+                            </td>
+                            <td>
+                                <button onclick="toggleBan('${u.phone}', ${u.isBanned})" class="text-xs font-bold underline ${u.isBanned ? 'text-green-500' : 'text-red-500'}">
+                                    ${u.isBanned ? 'إلغاء الحظر' : 'حظر الطالب'}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                document.getElementById('stat-students').innerText = count;
+                document.getElementById('stat-banned').innerText = banned;
+            });
+        }
+
+        window.toggleBan = (phone, currentStatus) => {
+            if(confirm("هل أنت متأكد من تغيير حالة هذا الطالب؟")) {
+                update(ref(db, 'users/' + phone), { isBanned: !currentStatus });
+            }
+        }
+
+        // --- تشغيل التطبيق للطالب ---
+        const saved = localStorage.getItem('tafra_user');
+        if(saved) {
+            const u = JSON.parse(saved);
+            document.getElementById('authPage').classList.add('hidden');
+            document.getElementById('studentPage').classList.remove('hidden');
+            document.getElementById('u-name').innerText = u.name;
+            document.getElementById('u-icon').innerText = u.name[0];
         }
     </script>
 </body>
-              </html>
-              
+        </html>
+        
