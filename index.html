@@ -8,42 +8,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --main: #00bcd4; --bg: #f0f2f5; }
-        /* حماية: منع تحديد النصوص */
-        * { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; overflow-x: hidden; }
-        
-        .category-card { background: white; border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); transition: 0.3s; cursor: pointer; border: 1px solid #fff; }
-        .category-card:hover { transform: translateY(-8px); border-color: var(--main); box-shadow: 0 20px 25px -5px rgba(0,188,212,0.2); }
-        .category-icon { width: 65px; height: 65px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; border-radius: 20px; font-size: 30px; }
-        
+        * { -webkit-user-select: none; user-select: none; box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); margin: 0; }
+        .category-card { background: white; border-radius: 25px; padding: 25px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; cursor: pointer; border: 1px solid #fff; }
+        .category-card:hover { transform: translateY(-5px); border-color: var(--main); box-shadow: 0 10px 15px rgba(0,188,212,0.1); }
         .hidden { display: none !important; }
-        .lecture-item { background: white; border-radius: 18px; margin-bottom: 12px; border-right: 6px solid var(--main); transition: 0.2s; }
-        .lecture-item:active { transform: scale(0.98); }
-        
-        /* حماية تسجيل الشاشة */
+        .lecture-item { background: white; border-radius: 18px; margin-bottom: 12px; border-right: 6px solid var(--main); padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         @media print { body { display:none; } }
     </style>
 </head>
-<body oncontextmenu="return false;"> <div id="authPage" class="min-h-screen flex items-center justify-center p-4">
+<body oncontextmenu="return false;">
+
+    <div id="authPage" class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md bg-white p-8 rounded-[35px] shadow-2xl">
             <div id="loginForm" class="text-center">
-                <div class="w-20 h-20 bg-cyan-500 text-white rounded-2xl mx-auto mb-6 flex items-center justify-center text-3xl shadow-lg">🔬</div>
-                <h1 class="text-3xl font-black text-gray-800 mb-2">الطفرة أونلاين</h1>
-                <p class="text-cyan-600 font-bold mb-8">ميس ندى كامل</p>
+                <h1 class="text-3xl font-black text-cyan-600 mb-8">الطفرة أونلاين 🧪</h1>
                 <input id="l-phone" type="tel" placeholder="رقم الموبايل" class="w-full p-4 rounded-2xl border bg-gray-50 mb-4 outline-none focus:ring-2 ring-cyan-400">
                 <input id="l-pass" type="password" placeholder="كلمة المرور" class="w-full p-4 rounded-2xl border bg-gray-50 mb-6 outline-none focus:ring-2 ring-cyan-400">
                 <button onclick="login()" class="w-full bg-cyan-500 text-white py-4 rounded-2xl font-black text-lg shadow-lg">دخول الطالب</button>
                 <p class="mt-6 text-sm">طالب جديد؟ <span onclick="showForm('reg')" class="text-cyan-600 font-bold cursor-pointer underline">إنشاء حساب</span></p>
                 <button onclick="openAdmin()" class="mt-10 text-gray-300 text-[10px]">لوحة التحكم</button>
             </div>
-
+            
             <div id="regForm" class="hidden">
-                <h2 class="text-2xl font-black mb-6 text-center text-gray-800">بيانات الطالب 📝</h2>
+                <h2 class="text-2xl font-black mb-6 text-center">بيانات الطالب الجديد</h2>
                 <div class="space-y-3">
                     <input id="r-name" type="text" placeholder="الاسم بالكامل" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
-                    <input id="r-phone" type="tel" placeholder="رقم موبايلك" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
-                    <input id="r-parent" type="tel" placeholder="رقم ولي الأمر" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
-                    <input id="r-school" type="text" placeholder="المدرسة" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
+                    <input id="r-phone" type="tel" placeholder="رقم الموبايل" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
                     <select id="r-year" class="w-full p-3 rounded-xl border bg-gray-50 font-bold outline-none">
                         <option value="">اختر السنة الدراسية</option>
                         <option>أولى إعدادي</option><option>ثانية إعدادي</option><option>ثالثة إعدادي</option>
@@ -51,103 +42,74 @@
                     </select>
                     <input id="r-pass" type="password" placeholder="كلمة المرور" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
                 </div>
-                <button onclick="register()" class="w-full bg-cyan-500 text-white py-4 rounded-2xl font-black mt-6">تأكيد التسجيل</button>
-                <p class="mt-4 text-center text-sm" onclick="showForm('login')">عندك حساب؟ <span class="text-cyan-600 font-bold cursor-pointer">سجل دخول</span></p>
+                <button onclick="register()" class="w-full bg-cyan-500 text-white py-4 rounded-xl font-black mt-6 shadow-md">تأكيد الحساب</button>
+                <p class="mt-4 text-center text-sm" onclick="showForm('login')">رجوع للدخول</p>
             </div>
         </div>
     </div>
 
     <div id="homePage" class="hidden min-h-screen">
         <nav class="bg-white p-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
-            <div class="flex items-center gap-2">
-                <div id="u-icon" class="w-10 h-10 rounded-full bg-cyan-500 text-white flex items-center justify-center font-bold shadow-md"></div>
-                <div>
-                    <p id="u-name" class="font-black text-sm text-gray-800"></p>
-                    <p id="u-year-tag" class="text-[10px] text-cyan-600 font-bold bg-cyan-50 px-2 rounded-full inline-block"></p>
-                </div>
+            <div>
+                <span id="u-name" class="font-black text-gray-800"></span>
+                <p id="u-year-display" class="text-[10px] text-cyan-600 font-bold"></p>
             </div>
-            <button onclick="logout()" class="text-red-500 text-xs font-bold border border-red-100 px-3 py-1 rounded-full hover:bg-red-50">خروج</button>
+            <button onclick="logout()" class="text-red-500 text-xs font-bold border border-red-100 px-3 py-1 rounded-full">خروج</button>
         </nav>
 
-        <div id="mainGrid" class="p-6 grid grid-cols-2 gap-5">
+        <div id="mainGrid" class="p-6 grid grid-cols-2 gap-4">
             <div class="category-card" onclick="showSection('lectures')">
-                <div class="category-icon bg-blue-50 text-blue-500">📺</div>
+                <div class="text-3xl mb-2">📺</div>
                 <h3 class="font-black text-sm">المحاضرات</h3>
             </div>
-            <div class="category-card" onclick="alert('قريباً: الامتحانات الإلكترونية')">
-                <div class="category-icon bg-purple-50 text-purple-500">📝</div>
-                <h3 class="font-black text-sm">الامتحانات</h3>
+            <div class="category-card" onclick="alert('تواصل لشحن الأكواد: 01159735573')">
+                <div class="text-3xl mb-2">🎟️</div>
+                <h3 class="font-black text-sm">شحن أكواد</h3>
             </div>
-            <div class="category-card" onclick="alert('قريباً: مذكرات الـ PDF')">
-                <div class="category-icon bg-orange-50 text-orange-500">📚</div>
+            <div class="category-card" onclick="alert('الدعم الفني: 01159735573')">
+                <div class="text-3xl mb-2">📞</div>
+                <h3 class="font-black text-sm">تواصل معنا</h3>
+            </div>
+            <div class="category-card" onclick="alert('قريباً')">
+                <div class="text-3xl mb-2">📚</div>
                 <h3 class="font-black text-sm">المذكرات</h3>
-            </div>
-            <div class="category-card" onclick="alert('تواصل مع ميس ندى لتفعيل اشتراكك 01159735573')">
-                <div class="category-icon bg-green-50 text-green-500">💳</div>
-                <h3 class="font-black text-sm">شحن رصيد</h3>
-            </div>
-            <div class="category-card" onclick="alert('دعم فني ميس ندى: 01127266185')">
-                <div class="category-icon bg-pink-50 text-pink-500">📞</div>
-                <h3 class="font-black text-sm">الدعم الفني</h3>
-            </div>
-            <div class="category-card" onclick="alert('بنك الأسئلة والواجبات')">
-                <div class="category-icon bg-yellow-50 text-yellow-500">✏️</div>
-                <h3 class="font-black text-sm">الواجبات</h3>
             </div>
         </div>
 
         <div id="lecturesPage" class="hidden p-5">
-            <button onclick="showSection('grid')" class="mb-6 text-cyan-600 font-bold flex items-center gap-2"> ⬅️ العودة للأقسام </button>
-            <h2 class="text-xl font-black mb-6 text-gray-800">محاضراتي المتاحة 🎥</h2>
+            <button onclick="showSection('grid')" class="mb-4 text-cyan-600 font-bold flex items-center gap-1"> ⬅️ العودة للرئيسية</button>
             <div id="lecturesList" class="space-y-4"></div>
         </div>
     </div>
 
-    <div id="adminPage" class="hidden min-h-screen bg-white">
-        <div class="bg-slate-900 text-white p-6 flex justify-between items-center shadow-lg">
-            <h2 class="font-black text-lg">لوحة تحكم الإدارة 👑</h2>
-            <button onclick="location.reload()" class="bg-red-500 px-4 py-1 rounded-xl text-sm font-bold">خروج نهائي</button>
+    <div id="adminPage" class="hidden min-h-screen bg-white p-6">
+        <div class="flex justify-between items-center border-b pb-4 mb-6">
+            <h2 class="text-2xl font-black">لوحة تحكم الأكواد والدروس 👑</h2>
+            <button onclick="location.reload()" class="bg-red-500 text-white px-4 py-1 rounded-lg text-sm">إغلاق</button>
         </div>
         
-        <div class="p-4 space-y-8">
-            <div class="bg-gray-50 p-6 rounded-[30px] border-2 border-dashed border-gray-200">
-                <h3 class="font-black mb-4 text-cyan-700">➕ إضافة فيديو جديد</h3>
-                <input id="v-title" placeholder="عنوان الدرس" class="w-full p-4 border rounded-2xl mb-3 outline-none focus:ring-2 ring-cyan-400">
-                <input id="v-url" placeholder="رابط يوتيوب" class="w-full p-4 border rounded-2xl mb-3 outline-none focus:ring-2 ring-cyan-400">
-                <select id="v-year" class="w-full p-4 border rounded-2xl mb-5 font-bold outline-none">
+        <div class="bg-slate-100 p-6 rounded-3xl mb-8 border border-slate-200">
+            <h3 class="font-bold mb-4 text-cyan-700">🎟️ توليد أكواد جديدة</h3>
+            <div class="flex gap-2 mb-4">
+                <input id="codesCount" type="number" placeholder="عدد الأكواد" class="w-1/2 p-3 rounded-xl border">
+                <select id="codesYear" class="w-1/2 p-3 rounded-xl border font-bold">
                     <option>أولى إعدادي</option><option>ثانية إعدادي</option><option>ثالثة إعدادي</option>
                     <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
                 </select>
-                <button onclick="uploadVideo()" class="w-full bg-slate-800 text-white py-4 rounded-2xl font-black shadow-lg">نشر الدرس الآن</button>
             </div>
+            <button onclick="generateCodes()" class="w-full bg-cyan-600 text-white py-3 rounded-xl font-bold shadow-md">توليد وطباعة الأكواد</button>
+            <div id="generatedList" class="mt-4 p-4 bg-white rounded-xl border max-h-40 overflow-y-auto text-xs font-mono hidden select-text"></div>
+        </div>
 
-            <div class="flex gap-4">
-                <div class="flex-1 bg-cyan-600 p-4 rounded-3xl text-white text-center">
-                    <p class="text-xs opacity-80">الطلاب</p>
-                    <h4 id="stat-total" class="text-2xl font-black">0</h4>
-                </div>
-                <div class="flex-1 bg-rose-600 p-4 rounded-3xl text-white text-center">
-                    <p class="text-xs opacity-80">المحظورين</p>
-                    <h4 id="stat-banned" class="text-2xl font-black">0</h4>
-                </div>
-            </div>
-
-            <div class="border rounded-[30px] overflow-hidden bg-white shadow-sm">
-                <div class="p-5 bg-slate-50 border-b font-black">قائمة الطلاب والتحكم</div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm text-right">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="p-4">الطالب</th>
-                                <th class="p-4">ولي الأمر/المدرسة</th>
-                                <th class="p-4">الحالة</th>
-                                <th class="p-4">الإجراء</th>
-                            </tr>
-                        </thead>
-                        <tbody id="adminStudents"></tbody>
-                    </table>
-                </div>
-            </div>
+        <div class="bg-gray-50 p-6 rounded-3xl border border-gray-200">
+            <h3 class="font-bold mb-4 text-gray-700">➕ إضافة فيديو جديد</h3>
+            <input id="v-title" placeholder="عنوان الدرس" class="w-full p-3 border rounded-xl mb-2">
+            <input id="v-url" placeholder="رابط يوتيوب" class="w-full p-3 border rounded-xl mb-2">
+            <select id="v-year" class="w-full p-3 border rounded-xl mb-4 font-bold">
+                <option>أولى إعدادي</option><option>ثانية إعدادي</option><option>ثالثة إعدادي</option>
+                <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
+            </select>
+            <button onclick="uploadVideo()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-bold">نشر الفيديو</button>
         </div>
     </div>
 
@@ -159,65 +121,75 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let currentUser = null;
+        let currentUser = JSON.parse(localStorage.getItem('tafra_v7')) || null;
 
-        // --- حماية: منع اختصارات الكيبورد ---
-        document.onkeydown = (e) => {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) || (e.ctrlKey && e.keyCode == 85)) return false;
-        };
-
-        // --- التبديل بين الشاشات ---
-        window.showForm = (f) => {
-            document.getElementById('loginForm').classList.toggle('hidden', f === 'reg');
-            document.getElementById('regForm').classList.toggle('hidden', f === 'login');
-        }
-
-        window.showSection = (s) => {
-            document.getElementById('mainGrid').classList.toggle('hidden', s === 'lectures');
-            document.getElementById('lecturesPage').classList.toggle('hidden', s === 'grid');
-            if(s === 'lectures') loadLectures();
-        }
-
-        // --- نظام التسجيل والدخول ---
-        window.register = () => {
-            const d = {
-                name: document.getElementById('r-name').value,
-                phone: document.getElementById('r-phone').value,
-                parent: document.getElementById('r-parent').value,
-                school: document.getElementById('r-school').value,
-                year: document.getElementById('r-year').value,
-                pass: document.getElementById('r-pass').value,
-                isPaid: false, isBanned: false
-            };
-            if(!d.name || !d.phone || !d.year || !d.pass) return alert("املأ كل الخانات يا بطل!");
-            set(ref(db, 'users/' + d.phone), d).then(() => { alert("تم تسجيلك بنجاح ✅"); showForm('login'); });
-        }
+        // حماية الكيبورد
+        document.onkeydown = (e) => { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false; };
 
         window.login = () => {
             const p = document.getElementById('l-phone').value;
             const s = document.getElementById('l-pass').value;
             get(child(ref(db), 'users/' + p)).then(snap => {
-                if(snap.exists()){
-                    const u = snap.val();
-                    if(u.isBanned) return alert("عفواً.. حسابك محظور، راجع الميس.");
-                    if(u.pass === s){ localStorage.setItem('tafra_secure_user', JSON.stringify(u)); location.reload(); }
-                    else alert("كلمة المرور غير صحيحة");
-                } else alert("الرقم غير مسجل عندنا");
+                if(snap.exists() && snap.val().pass === s){
+                    localStorage.setItem('tafra_v7', JSON.stringify(snap.val()));
+                    location.reload();
+                } else alert("بيانات الدخول خطأ!");
             });
-        }
+        };
 
-        // --- تشغيل وضع الطالب الموقّع ---
-        const saved = localStorage.getItem('tafra_secure_user');
-        if(saved) {
-            currentUser = JSON.parse(saved);
-            document.getElementById('authPage').classList.add('hidden');
-            document.getElementById('homePage').classList.remove('hidden');
-            document.getElementById('u-name').innerText = currentUser.name;
-            document.getElementById('u-year-tag').innerText = currentUser.year;
-            document.getElementById('u-icon').innerText = currentUser.name[0];
-        }
+        window.register = () => {
+            const d = {
+                name: document.getElementById('r-name').value,
+                phone: document.getElementById('r-phone').value,
+                year: document.getElementById('r-year').value,
+                pass: document.getElementById('r-pass').value,
+                unlocked: {}
+            };
+            if(!d.name || !d.phone) return alert("اكمل البيانات!");
+            set(ref(db, 'users/' + d.phone), d).then(() => { alert("تم التسجيل! سجل دخول الآن."); showForm('login'); });
+        };
 
-        // --- نظام المحاضرات الذكي ---
+        window.generateCodes = () => {
+            const count = document.getElementById('codesCount').value;
+            const year = document.getElementById('codesYear').value;
+            let listDiv = document.getElementById('generatedList');
+            listDiv.innerHTML = '<b>الأكواد المولدة (انسخها للطباعة):</b><br>';
+            listDiv.classList.remove('hidden');
+            for(let i=0; i<count; i++) {
+                const code = "TF-" + Math.random().toString(36).substr(2, 6).toUpperCase();
+                set(ref(db, 'codes/' + code), { year: year, usedBy: "" });
+                listDiv.innerHTML += code + "<br>";
+            }
+        };
+
+        window.uploadVideo = () => {
+            const t = document.getElementById('v-title').value;
+            const u = document.getElementById('v-url').value;
+            const y = document.getElementById('v-year').value;
+            if(t && u) push(ref(db, 'videos'), { title: t, url: u, year: y }).then(() => alert("تم النشر ✅"));
+        };
+
+        window.watchVideo = async (videoID, url) => {
+            const unlockedRef = child(ref(db), `users/${currentUser.phone}/unlocked/${videoID}`);
+            const check = await get(unlockedRef);
+            if(check.exists()){
+                window.open(url, '_blank');
+            } else {
+                const code = prompt("الحصة مشفرة.. أدخل كود التفعيل لفتحها:");
+                if(!code) return;
+                const codeSnap = await get(child(ref(db), 'codes/' + code));
+                if(codeSnap.exists()){
+                    const cData = codeSnap.val();
+                    if(cData.usedBy === "" && cData.year === currentUser.year){
+                        await update(ref(db, 'codes/' + code), { usedBy: currentUser.phone });
+                        await set(unlockedRef, true);
+                        alert("تم تفعيل الحصة بنجاح!");
+                        window.open(url, '_blank');
+                    } else alert("كود مستخدم، أو غير مخصص لسنتك الدراسية!");
+                } else alert("كود غير صحيح!");
+            }
+        };
+
         function loadLectures() {
             onValue(ref(db, 'videos'), snap => {
                 const list = document.getElementById('lecturesList');
@@ -226,75 +198,31 @@
                     const v = c.val();
                     if(v.year === currentUser.year) {
                         list.innerHTML += `
-                            <div class="lecture-item p-5 flex justify-between items-center shadow-sm">
-                                <div>
-                                    <h4 class="font-black text-gray-800 text-base">${v.title}</h4>
-                                    <p class="text-[10px] text-gray-400 font-bold mt-1">بواسطة: ميس ندى كامل ✨</p>
-                                </div>
-                                <button onclick="watchVideo('${v.url}')" class="bg-cyan-500 text-white px-5 py-2 rounded-xl text-xs font-bold shadow-md">🎬 مشاهدة</button>
-                            </div>
-                        `;
+                            <div class="lecture-item shadow-sm">
+                                <div><h4 class="font-bold text-gray-800">${v.title}</h4><p class="text-[10px] text-cyan-600">محاضرة معتمدة</p></div>
+                                <button onclick="watchVideo('${c.key}', '${v.url}')" class="bg-cyan-500 text-white px-5 py-2 rounded-xl text-xs font-black">🎬 مشاهدة</button>
+                            </div>`;
                     }
                 });
-                if(!list.innerHTML) list.innerHTML = '<p class="text-center text-gray-400 py-10">لا توجد محاضرات لصفك حالياً</p>';
             });
         }
 
-        window.watchVideo = (url) => {
-            if(!currentUser.isPaid) return alert("عفواً.. الحصة مشفرة، تواصل مع الميس لتفعيل حسابك.");
-            window.open(url, '_blank');
+        if(currentUser) {
+            document.getElementById('authPage').classList.add('hidden');
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('u-name').innerText = currentUser.name;
+            document.getElementById('u-year-display').innerText = currentUser.year;
         }
-
-        // --- نظام لوحة التحكم (الميس ندى) ---
-        window.openAdmin = () => {
-            if(prompt("كلمة السر الخاصة بالميس:") === "Rtslanme 44") {
-                document.getElementById('authPage').classList.add('hidden');
-                document.getElementById('adminPage').classList.remove('hidden');
-                loadAdminData();
-            }
+        window.showSection = (s) => {
+            document.getElementById('mainGrid').classList.toggle('hidden', s === 'lectures');
+            document.getElementById('lecturesPage').classList.toggle('hidden', s === 'grid');
+            if(s === 'lectures') loadLectures();
         }
-
-        window.uploadVideo = () => {
-            const t = document.getElementById('v-title').value;
-            const u = document.getElementById('v-url').value;
-            const y = document.getElementById('v-year').value;
-            if(t && u) push(ref(db, 'videos'), { title: t, url: u, year: y }).then(() => { alert("تم النشر بنجاح ✅"); location.reload(); });
+        window.showForm = (f) => {
+            document.getElementById('loginForm').classList.toggle('hidden', f === 'reg');
+            document.getElementById('regForm').classList.toggle('hidden', f === 'login');
         }
-
-        function loadAdminData() {
-            onValue(ref(db, 'users'), snap => {
-                const tb = document.getElementById('adminStudents');
-                tb.innerHTML = '';
-                let total = 0, banned = 0;
-                snap.forEach(c => {
-                    const u = c.val(); total++; if(u.isBanned) banned++;
-                    tb.innerHTML += `
-                        <tr class="border-b">
-                            <td class="p-4"><b>${u.name}</b><br><span class="text-[10px] text-gray-400">${u.phone} | ${u.year}</span></td>
-                            <td class="p-4 text-xs text-gray-500">${u.parent}<br>${u.school}</td>
-                            <td class="p-4">
-                                <button onclick="toggleAction('${u.phone}', 'isPaid', ${u.isPaid})" class="font-black ${u.isPaid ? 'text-green-500' : 'text-blue-500'}">
-                                    ${u.isPaid ? 'مفعل ✅' : 'تفعيل'}
-                                </button>
-                            </td>
-                            <td class="p-4">
-                                <button onclick="toggleAction('${u.phone}', 'isBanned', ${u.isBanned})" class="text-red-500 font-bold underline">
-                                    ${u.isBanned ? 'فك حظر' : 'حظر'}
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-                document.getElementById('stat-total').innerText = total;
-                document.getElementById('stat-banned').innerText = banned;
-            });
-        }
-
-        window.toggleAction = (p, field, current) => {
-            let updateObj = {}; updateObj[field] = !current;
-            update(ref(db, 'users/' + p), updateObj);
-        }
-
+        window.openAdmin = () => { if(prompt("كلمة سر الميس:") === "Rtslanme 44") { document.getElementById('authPage').classList.add('hidden'); document.getElementById('adminPage').classList.remove('hidden'); } }
         window.logout = () => { localStorage.clear(); location.reload(); }
     </script>
 </body>
