@@ -3,110 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الطفرة أونلاين | ميس ندى كامل</title>
+    <title>منصة الطفرة | ميس ندى كامل</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --main: #00bcd4; --bg: #f8fafc; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #333; }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid #e2e8f0; }
-        .btn-main { background: linear-gradient(90deg, #00bcd4, #00acc1); color: white; transition: 0.3s; }
+        :root { --main: #00bcd4; --bg: #f0f2f5; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: #1a1a1a; }
+        .category-card { background: white; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); transition: 0.3s; cursor: pointer; border: 1px solid #eee; }
+        .category-card:hover { transform: translateY(-5px); border-color: var(--main); }
+        .category-icon { width: 60px; height: 60px; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; border-radius: 15px; font-size: 30px; }
         .hidden { display: none !important; }
-        .admin-table th { background: #f1f5f9; padding: 12px; text-align: right; border-bottom: 2px solid #e2e8f0; }
-        .admin-table td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
+        .admin-nav { background: #1e293b; color: white; }
+        .status-paid { color: #10b981; font-weight: bold; }
+        .status-unpaid { color: #ef4444; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="authPage" class="min-h-screen flex items-center justify-center p-4">
-        <div class="w-full max-w-lg glass p-8 rounded-[35px] shadow-2xl">
+        <div class="w-full max-w-md bg-white p-8 rounded-[30px] shadow-2xl">
             <div id="loginForm" class="text-center">
-                <div class="w-20 h-20 btn-main rounded-2xl mx-auto mb-6 flex items-center justify-center text-3xl shadow-lg">🔬</div>
-                <h2 class="text-3xl font-black mb-6">تسجيل الدخول</h2>
-                <input id="l-phone" type="tel" placeholder="رقم الموبايل" class="w-full p-4 rounded-2xl border mb-4 outline-none focus:ring-2 ring-cyan-400">
-                <input id="l-pass" type="password" placeholder="كلمة المرور" class="w-full p-4 rounded-2xl border mb-6 outline-none focus:ring-2 ring-cyan-400">
-                <button onclick="login()" class="btn-main w-full py-4 rounded-2xl font-black text-lg">دخول</button>
-                <p class="mt-6">ليس لديك حساب؟ <span onclick="showForm('reg')" class="text-cyan-600 font-bold cursor-pointer underline">أنشئ حسابك</span></p>
-                <p onclick="openAdmin()" class="mt-10 text-slate-300 text-xs cursor-pointer">لوحة التحكم</p>
+                <h1 class="text-3xl font-black text-cyan-600 mb-2">الطفرة أونلاين</h1>
+                <p class="text-gray-500 mb-8 font-bold">ميس ندى كامل</p>
+                <input id="l-phone" type="tel" placeholder="رقم الهاتف" class="w-full p-4 rounded-xl bg-gray-50 border mb-4 outline-none focus:ring-2 ring-cyan-400">
+                <input id="l-pass" type="password" placeholder="كلمة المرور" class="w-full p-4 rounded-xl bg-gray-50 border mb-6 outline-none focus:ring-2 ring-cyan-400">
+                <button onclick="login()" class="w-full bg-cyan-500 text-white py-4 rounded-xl font-black text-lg shadow-lg hover:bg-cyan-600 transition">دخول للمنصة</button>
+                <p class="mt-6">طالب جديد؟ <span onclick="showForm('reg')" class="text-cyan-600 font-bold cursor-pointer underline">إنشاء حساب</span></p>
+                <button onclick="openAdmin()" class="mt-10 text-gray-300 text-xs">لوحة التحكم</button>
             </div>
 
             <div id="regForm" class="hidden">
-                <h2 class="text-2xl font-black mb-6 text-center">إنشاء حساب طالب جديد 🎓</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-right">
-                    <input id="r-name" type="text" placeholder="الاسم بالكامل" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400">
-                    <input id="r-phone" type="tel" placeholder="رقم هاتفك" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400">
-                    <input id="r-parent" type="tel" placeholder="رقم ولي الأمر" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400">
-                    <input id="r-school" type="text" placeholder="اسم مدرستك" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400">
-                    <select id="r-year" class="p-4 rounded-xl border outline-none font-bold col-span-1 md:col-span-2">
-                        <option value="">اختر سنتك الدراسية</option>
-                        <optgroup label="المرحلة الإعدادية">
-                            <option>أولى إعدادي</option><option>ثانية إعدادي</option><option>ثالثة إعدادي</option>
-                        </optgroup>
-                        <optgroup label="المرحلة الثانوية">
-                            <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
-                        </optgroup>
+                <h2 class="text-2xl font-black mb-6 text-center text-gray-800">بيانات الطالب الجديد 🎓</h2>
+                <div class="space-y-3">
+                    <input id="r-name" type="text" placeholder="الاسم ثلاثي" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
+                    <input id="r-phone" type="tel" placeholder="رقم هاتفك" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
+                    <input id="r-parent" type="tel" placeholder="رقم ولي الأمر" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
+                    <input id="r-school" type="text" placeholder="المدرسة" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
+                    <select id="r-year" class="w-full p-3 rounded-xl border bg-gray-50 outline-none font-bold">
+                        <option value="">اختر السنة الدراسية</option>
+                        <option>أولى إعدادي</option><option>ثانية إعدادي</option><option>ثالثة إعدادي</option>
+                        <option>أولى ثانوي</option><option>ثانية ثانوي</option><option>ثالثة ثانوي</option>
                     </select>
-                    <input id="r-pass" type="password" placeholder="كلمة المرور" class="p-4 rounded-xl border outline-none focus:ring-2 ring-cyan-400 col-span-1 md:col-span-2">
+                    <input id="r-pass" type="password" placeholder="كلمة المرور" class="w-full p-3 rounded-xl border bg-gray-50 outline-none">
                 </div>
-                <button onclick="register()" class="btn-main w-full py-4 rounded-2xl font-black mt-6">تأكيد التسجيل</button>
-                <p class="mt-4 text-center" onclick="showForm('login')">لديك حساب؟ <span class="text-cyan-600 font-bold cursor-pointer">سجل دخول</span></p>
+                <button onclick="register()" class="w-full bg-cyan-500 text-white py-4 rounded-xl font-black mt-6 shadow-md">تأكيد البيانات</button>
+                <p class="mt-4 text-center" onclick="showForm('login')">عندك حساب؟ <span class="text-cyan-600 font-bold cursor-pointer">سجل دخول</span></p>
             </div>
         </div>
     </div>
 
-    <div id="studentPage" class="hidden min-h-screen">
-        <nav class="glass sticky top-0 px-6 py-4 flex justify-between items-center z-50 shadow-sm">
-            <div class="flex items-center gap-3">
-                <div id="u-icon" class="w-10 h-10 rounded-full btn-main flex items-center justify-center font-bold"></div>
-                <span id="u-name" class="font-black text-sm"></span>
+    <div id="homePage" class="hidden min-h-screen pb-20">
+        <nav class="bg-white px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-50">
+            <div class="flex items-center gap-2">
+                <div id="u-icon" class="w-10 h-10 rounded-full bg-cyan-500 text-white flex items-center justify-center font-bold"></div>
+                <div>
+                    <p id="u-name" class="font-black text-sm text-gray-800 leading-none"></p>
+                    <span id="u-year-tag" class="text-[10px] text-cyan-600 font-bold"></span>
+                </div>
             </div>
-            <div class="font-black text-xl text-cyan-500 italic">TAFRA</div>
+            <button onclick="logout()" class="text-red-500 font-bold text-xs">خروج</button>
         </nav>
-        <div id="studentContent" class="max-w-2xl mx-auto p-4">
+
+        <div class="p-6">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="category-card" onclick="alert('سيتم رفع المحاضرات قريباً')">
+                    <div class="category-icon bg-blue-50 text-blue-500">📺</div>
+                    <h3 class="font-black text-sm">المحاضرات</h3>
+                </div>
+                <div class="category-card" onclick="alert('لا توجد امتحانات حالياً')">
+                    <div class="category-icon bg-purple-50 text-purple-500">📝</div>
+                    <h3 class="font-black text-sm">الامتحانات</h3>
+                </div>
+                <div class="category-card" onclick="alert('المذكرات قيد التجهيز')">
+                    <div class="category-icon bg-orange-50 text-orange-500">📚</div>
+                    <h3 class="font-black text-sm">المذكرات</h3>
+                </div>
+                <div class="category-card" onclick="showRecharge()">
+                    <div class="category-icon bg-green-50 text-green-500">💳</div>
+                    <h3 class="font-black text-sm">شحن رصيد</h3>
+                </div>
+                <div class="category-card" onclick="alert('تواصل مع ميس ندى: 01127266185')">
+                    <div class="category-icon bg-pink-50 text-pink-500">📞</div>
+                    <h3 class="font-black text-sm">الدعم الفني</h3>
+                </div>
+                <div class="category-card" onclick="alert('الواجبات ستظهر هنا')">
+                    <div class="category-icon bg-yellow-50 text-yellow-500">✏️</div>
+                    <h3 class="font-black text-sm">الواجبات</h3>
+                </div>
             </div>
+        </div>
     </div>
 
     <div id="adminPage" class="hidden min-h-screen bg-white">
-        <div class="bg-slate-900 text-white p-6 flex justify-between items-center">
-            <h1 class="text-xl font-black">لوحة تحكم الإدارة 👑</h1>
-            <button onclick="location.reload()" class="bg-red-500 px-4 py-2 rounded-lg text-sm">خروج</button>
+        <div class="admin-nav p-6 flex justify-between items-center">
+            <h2 class="text-xl font-black">لوحة تحكم ميس ندى 👑</h2>
+            <button onclick="location.reload()" class="bg-red-500 px-4 py-1 rounded-lg text-sm">خروج</button>
         </div>
-
-        <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="p-6 bg-cyan-50 border border-cyan-100 rounded-3xl">
-                    <h3 class="text-slate-500 text-sm mb-1">إجمالي الطلاب</h3>
-                    <p id="stat-students" class="text-3xl font-black text-cyan-600">0</p>
+        
+        <div class="p-4 overflow-x-auto">
+            <div class="flex gap-4 mb-6">
+                <div class="bg-gray-100 p-4 rounded-2xl flex-1 text-center">
+                    <p class="text-xs text-gray-500">إجمالي الطلاب</p>
+                    <h4 id="stat-total" class="text-2xl font-black">0</h4>
                 </div>
-                <div class="p-6 bg-rose-50 border border-rose-100 rounded-3xl">
-                    <h3 class="text-slate-500 text-sm mb-1">الطلاب المحظورين</h3>
-                    <p id="stat-banned" class="text-3xl font-black text-rose-600">0</p>
-                </div>
-                <div class="p-6 bg-amber-50 border border-amber-100 rounded-3xl">
-                    <h3 class="text-slate-500 text-sm mb-1">إجمالي الحصص</h3>
-                    <p id="stat-lessons" class="text-3xl font-black text-amber-600">0</p>
+                <div class="bg-red-50 p-4 rounded-2xl flex-1 text-center">
+                    <p class="text-xs text-red-400">المحظورين</p>
+                    <h4 id="stat-banned" class="text-2xl font-black text-red-600">0</h4>
                 </div>
             </div>
 
-            <div class="bg-white border rounded-3xl overflow-hidden shadow-sm">
-                <div class="p-6 border-b font-black text-lg">قائمة الطلاب والتحكم في الحظر</div>
-                <div class="overflow-x-auto">
-                    <table class="w-full admin-table text-sm">
-                        <thead>
-                            <tr>
-                                <th>الاسم</th>
-                                <th>رقم الطالب</th>
-                                <th>ولي الأمر</th>
-                                <th>السنة الدراسية</th>
-                                <th>المدرسة</th>
-                                <th>الحالة</th>
-                                <th>الإجراء</th>
-                            </tr>
-                        </thead>
-                        <tbody id="studentsList"></tbody>
-                    </table>
-                </div>
-            </div>
+            <table class="w-full text-right text-sm border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 border-b">
+                        <th class="p-3">اسم الطالب</th>
+                        <th class="p-3">ولي الأمر</th>
+                        <th class="p-3">المدرسة</th>
+                        <th class="p-3">الاشتراك</th>
+                        <th class="p-3">الإجراء</th>
+                    </tr>
+                </thead>
+                <tbody id="adminUsersList"></tbody>
+            </table>
         </div>
     </div>
 
@@ -118,13 +135,13 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- وظائف الواجهة ---
+        // --- التبديل بين النماذج ---
         window.showForm = (f) => {
             document.getElementById('loginForm').classList.toggle('hidden', f === 'reg');
             document.getElementById('regForm').classList.toggle('hidden', f === 'login');
         }
 
-        // --- نظام الطلاب ---
+        // --- تسجيل الطالب ---
         window.register = () => {
             const data = {
                 name: document.getElementById('r-name').value,
@@ -137,14 +154,15 @@
                 isPaid: false
             };
 
-            if(!data.name || !data.phone || !data.pass) return alert("اكمل البيانات الأساسية!");
+            if(!data.name || !data.phone || !data.pass || !data.year) return alert("من فضلك املأ جميع الخانات");
 
             set(ref(db, 'users/' + data.phone), data).then(() => {
-                alert("تم تسجيل حسابك بنجاح! سجل دخول الآن.");
+                alert("تم تسجيلك بنجاح ✅");
                 showForm('login');
             });
         }
 
+        // --- دخول الطالب ---
         window.login = () => {
             const p = document.getElementById('l-phone').value;
             const s = document.getElementById('l-pass').value;
@@ -152,76 +170,74 @@
             get(child(ref(db), 'users/' + p)).then(snap => {
                 if(snap.exists()){
                     const u = snap.val();
-                    if(u.isBanned) return alert("عفواً، تم حظر حسابك.. تواصل مع الإدارة.");
+                    if(u.isBanned) return alert("عفواً! تم حظرك من المنصة، تواصل مع الميس.");
                     if(u.pass === s) {
-                        localStorage.setItem('tafra_user', JSON.stringify(u));
+                        localStorage.setItem('tafra_active', JSON.stringify(u));
                         location.reload();
-                    } else alert("كلمة المرور خطأ!");
-                } else alert("الحساب غير موجود!");
+                    } else alert("كلمة المرور غير صحيحة");
+                } else alert("هذا الرقم غير مسجل!");
             });
         }
 
-        // --- نظام الإدارة (Admin) ---
+        // --- لوحة التحكم ---
         window.openAdmin = () => {
-            if(prompt("كلمة سر الميس:") === "Rtslanme 44") {
+            if(prompt("كلمة سر الميس ندى:") === "Rtslanme 44") {
                 document.getElementById('authPage').classList.add('hidden');
                 document.getElementById('adminPage').classList.remove('hidden');
-                loadAdminData();
+                loadAdminPanel();
             }
         }
 
-        function loadAdminData() {
+        function loadAdminPanel() {
             onValue(ref(db, 'users'), snap => {
-                const list = document.getElementById('studentsList');
+                const list = document.getElementById('adminUsersList');
                 list.innerHTML = '';
-                let count = 0, banned = 0;
+                let total = 0, banned = 0;
 
-                snap.forEach(childSnap => {
-                    const u = childSnap.val();
-                    count++;
+                snap.forEach(c => {
+                    const u = c.val();
+                    total++;
                     if(u.isBanned) banned++;
 
                     list.innerHTML += `
-                        <tr>
-                            <td class="font-bold">${u.name}</td>
-                            <td>${u.phone}</td>
-                            <td>${u.parent || '---'}</td>
-                            <td>${u.year}</td>
-                            <td>${u.school || '---'}</td>
-                            <td>
-                                <span class="${u.isBanned ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'} px-2 py-1 rounded text-xs">
-                                    ${u.isBanned ? 'محظور' : 'نشط'}
-                                </span>
-                            </td>
-                            <td>
-                                <button onclick="toggleBan('${u.phone}', ${u.isBanned})" class="text-xs font-bold underline ${u.isBanned ? 'text-green-500' : 'text-red-500'}">
-                                    ${u.isBanned ? 'إلغاء الحظر' : 'حظر الطالب'}
+                        <tr class="border-b">
+                            <td class="p-3"><b>${u.name}</b><br><span class="text-[10px] text-gray-400">${u.phone} | ${u.year}</span></td>
+                            <td class="p-3 text-xs">${u.parent}</td>
+                            <td class="p-3 text-xs">${u.school}</td>
+                            <td class="p-3 text-xs ${u.isPaid ? 'text-green-500' : 'text-red-500'}">${u.isPaid ? 'مفعل' : 'غير مفعل'}</td>
+                            <td class="p-3">
+                                <button onclick="toggleBan('${u.phone}', ${u.isBanned})" class="text-[10px] ${u.isBanned ? 'text-green-500' : 'text-red-500'} font-bold">
+                                    ${u.isBanned ? 'فك حظر' : 'حظر'}
                                 </button>
+                                <button onclick="togglePaid('${u.phone}', ${u.isPaid})" class="text-[10px] text-blue-500 mr-2 font-bold">تفعيل</button>
                             </td>
                         </tr>
                     `;
                 });
-                document.getElementById('stat-students').innerText = count;
+                document.getElementById('stat-total').innerText = total;
                 document.getElementById('stat-banned').innerText = banned;
             });
         }
 
-        window.toggleBan = (phone, currentStatus) => {
-            if(confirm("هل أنت متأكد من تغيير حالة هذا الطالب؟")) {
-                update(ref(db, 'users/' + phone), { isBanned: !currentStatus });
-            }
+        window.toggleBan = (id, status) => update(ref(db, 'users/' + id), { isBanned: !status });
+        window.togglePaid = (id, status) => update(ref(db, 'users/' + id), { isPaid: !status });
+
+        // --- تشغيل الموقع ---
+        const activeUser = localStorage.getItem('tafra_active');
+        if(activeUser) {
+            const u = JSON.parse(activeUser);
+            document.getElementById('authPage').classList.add('hidden');
+            document.getElementById('homePage').classList.remove('hidden');
+            document.getElementById('u-name').innerText = u.name;
+            document.getElementById('u-year-tag').innerText = u.year;
+            document.getElementById('u-icon').innerText = u.name[0];
         }
 
-        // --- تشغيل التطبيق للطالب ---
-        const saved = localStorage.getItem('tafra_user');
-        if(saved) {
-            const u = JSON.parse(saved);
-            document.getElementById('authPage').classList.add('hidden');
-            document.getElementById('studentPage').classList.remove('hidden');
-            document.getElementById('u-name').innerText = u.name;
-            document.getElementById('u-icon').innerText = u.name[0];
+        window.logout = () => { localStorage.clear(); location.reload(); }
+        window.showRecharge = () => {
+            const code = prompt("أدخل كود الشحن الخاص بك لتفعيل الحصص:");
+            if(code) alert("سيتم التحقق من الكود وتفعيل حسابك تلقائياً");
         }
     </script>
 </body>
-        </html>
-        
+</html>
